@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1008198517398",
+    "project_id": "chss-noon-meal",
+    "storage_bucket": "chss-noon-meal.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1008198517398:android:e95b454955b4df1238f8b7",
+        "android_client_info": {
+          "package_name": "in.zedone.chss_noon_meal"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyActmIB1W4rP5Y4kjYRaT5ny7KGLQTNNP0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
