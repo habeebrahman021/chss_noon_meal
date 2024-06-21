@@ -1,51 +1,30 @@
-import 'package:chss_noon_meal/core/exceptions.dart';
-import 'package:chss_noon_meal/domain/entity/auth/auth_user.dart';
-import 'package:chss_noon_meal/domain/entity/auth/auth_user_extension.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:chss_noon_meal/data/data_source/remote/auth_data_source.dart';
+import 'package:chss_noon_meal/domain/entity/auth/user.dart';
+import 'package:chss_noon_meal/domain/entity/auth/user_extension.dart';
 
 abstract class AuthRepository {
-  Future<AuthUser> login({
-    required String email,
+  Future<User> login({
+    required String username,
     required String password,
   });
-
-  Future<void> logout();
 }
 
 class DefaultAuthRepository implements AuthRepository {
   DefaultAuthRepository({
-    required this.auth,
+    required this.dataSource,
   });
 
-  final FirebaseAuth auth;
+  final AuthDataSource dataSource;
 
   @override
-  Future<AuthUser> login({
-    required String email,
+  Future<User> login({
+    required String username,
     required String password,
   }) async {
-    try {
-      final credentials = await auth.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-      if (credentials.user == null) {
-        throw ValidationException('Invalid email or password');
-      }
-      return credentials.user!.toAuthUser();
-    } on FirebaseAuthException catch (_) {
-      throw ValidationException('Invalid email or password');
-    } catch (e) {
-      throw FailureException(e.toString());
-    }
-  }
-
-  @override
-  Future<void> logout() {
-    try {
-      return auth.signOut();
-    } catch (e) {
-      throw FailureException(e.toString());
-    }
+    final result = await dataSource.login(
+      username: username,
+      password: password,
+    );
+    return result.toUserEntity();
   }
 }

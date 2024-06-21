@@ -1,7 +1,8 @@
+import 'package:chss_noon_meal/data/data_source/remote/auth_data_source.dart';
 import 'package:chss_noon_meal/data/repository/auth_repository.dart';
 import 'package:chss_noon_meal/domain/use_case/auth/login_use_case.dart';
 import 'package:chss_noon_meal/presentation/login/bloc/login_bloc.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get_it/get_it.dart';
 
 final injector = GetIt.instance;
@@ -30,16 +31,22 @@ Future<void> initializeDependencies() async {
 
 // Register core dependencies
 Future<void> _registerCoreDependencies() async {
-  injector.registerSingleton<FirebaseAuth>(FirebaseAuth.instance);
+  injector.registerSingleton<FirebaseFirestore>(FirebaseFirestore.instance);
 }
 
 // Data layer dependencies
-Future<void> _registerDataSources() async {}
+Future<void> _registerDataSources() async {
+  injector.registerLazySingleton<AuthDataSource>(
+    () => DefaultAuthDataSource(
+      firestore: injector(),
+    ),
+  );
+}
 
 Future<void> _registerRepositories() async {
   injector.registerLazySingleton<AuthRepository>(
     () => DefaultAuthRepository(
-      auth: injector(),
+      dataSource: injector(),
     ),
   );
 }
