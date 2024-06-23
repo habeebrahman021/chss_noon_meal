@@ -22,7 +22,7 @@ class LoginScreen extends StatelessWidget {
         body: BlocListener<LoginBloc, LoginState>(
           listener: (context, state) {
             if (state.loginStatus.isSuccess) {
-              GoRouter.of(context).push(HomeScreen.route);
+              GoRouter.of(context).pushReplacementNamed(HomeScreen.route);
             }
           },
           child: BlocBuilder<LoginBloc, LoginState>(
