@@ -1,9 +1,14 @@
+import 'package:chss_noon_meal/data/data_source/local/preference/preference_data_source.dart';
 import 'package:chss_noon_meal/data/data_source/remote/auth_data_source.dart';
 import 'package:chss_noon_meal/data/repository/auth_repository.dart';
 import 'package:chss_noon_meal/domain/use_case/auth/login_use_case.dart';
+import 'package:chss_noon_meal/domain/use_case/auth/logout_use_case.dart';
+import 'package:chss_noon_meal/domain/use_case/auth/save_user_details_use_case.dart';
+import 'package:chss_noon_meal/presentation/home/bloc/home_bloc.dart';
 import 'package:chss_noon_meal/presentation/login/bloc/login_bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get_it/get_it.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 final injector = GetIt.instance;
 
@@ -31,16 +36,28 @@ Future<void> initializeDependencies() async {
 
 // Register core dependencies
 Future<void> _registerCoreDependencies() async {
-  injector.registerSingleton<FirebaseFirestore>(FirebaseFirestore.instance);
+  // SharedPreferences
+  final sharedPreferences = await SharedPreferences.getInstance();
+  injector.registerSingleton<SharedPreferences>(sharedPreferences);
+
+  // Firebase
+  final firestore = FirebaseFirestore.instance;
+  injector.registerSingleton<FirebaseFirestore>(firestore);
 }
 
 // Data layer dependencies
 Future<void> _registerDataSources() async {
-  injector.registerLazySingleton<AuthDataSource>(
-    () => DefaultAuthDataSource(
-      firestore: injector(),
-    ),
-  );
+  injector
+    ..registerLazySingleton<PreferenceDataSource>(
+      () => DefaultPreferenceDataSource(
+        storage: injector(),
+      ),
+    )
+    ..registerLazySingleton<AuthDataSource>(
+      () => DefaultAuthDataSource(
+        firestore: injector(),
+      ),
+    );
 }
 
 Future<void> _registerRepositories() async {
@@ -53,18 +70,36 @@ Future<void> _registerRepositories() async {
 
 // Domain layer dependencies
 Future<void> _registerUseCases() async {
-  injector.registerLazySingleton<LoginUseCase>(
-    () => LoginUseCase(
-      authRepository: injector(),
-    ),
-  );
+  injector
+    ..registerLazySingleton<SaveUserDetailsUseCase>(
+      () => SaveUserDetailsUseCase(
+        preferenceDataSource: injector(),
+      ),
+    )
+    ..registerLazySingleton<LoginUseCase>(
+      () => LoginUseCase(
+        authRepository: injector(),
+      ),
+    )
+    ..registerLazySingleton<LogoutUseCase>(
+      () => LogoutUseCase(
+        preferenceDataSource: injector(),
+      ),
+    );
 }
 
 // Presentation layer dependencies
 Future<void> _registerBlocs() async {
-  injector.registerFactory<LoginBloc>(
-    () => LoginBloc(
-      loginUseCase: injector(),
-    ),
-  );
+  injector
+    ..registerFactory<LoginBloc>(
+      () => LoginBloc(
+        saveUserDetailsUseCase: injector(),
+        loginUseCase: injector(),
+      ),
+    )
+    ..registerFactory<HomeBloc>(
+      () => HomeBloc(
+        logoutUseCase: injector(),
+      ),
+    );
 }

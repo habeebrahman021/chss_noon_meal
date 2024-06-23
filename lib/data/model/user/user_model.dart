@@ -10,6 +10,9 @@ class UserModel {
     this.userName,
     this.userRole,
     this.profileImage,
+    this.classId,
+    this.divisionId,
+    this.organizationId,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>
@@ -24,6 +27,12 @@ class UserModel {
   final int? userRole;
   @JsonKey(name: 'profile_image')
   final String? profileImage;
+  @JsonKey(name: 'class_id')
+  final String? classId;
+  @JsonKey(name: 'division_id')
+  final String? divisionId;
+  @JsonKey(name: 'organization_id')
+  final String? organizationId;
 
   Map<String, dynamic> toJson() => _$UserModelToJson(this);
 }
