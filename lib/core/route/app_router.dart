@@ -1,4 +1,4 @@
-import 'package:chss_noon_meal/presentation/home/home_screen.dart';
+import 'package:chss_noon_meal/presentation/home/screen/home_screen.dart';
 import 'package:chss_noon_meal/presentation/login/screen/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';

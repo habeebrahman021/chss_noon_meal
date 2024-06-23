@@ -1,6 +1,6 @@
 import 'package:chss_noon_meal/core/di/injector.dart';
 import 'package:chss_noon_meal/core/enum/status.dart';
-import 'package:chss_noon_meal/presentation/home/home_screen.dart';
+import 'package:chss_noon_meal/presentation/home/screen/home_screen.dart';
 import 'package:chss_noon_meal/presentation/login/bloc/login_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
