@@ -1,9 +1,12 @@
 import 'package:chss_noon_meal/data/data_source/local/preference/preference_data_source.dart';
 import 'package:chss_noon_meal/data/data_source/remote/auth_data_source.dart';
+import 'package:chss_noon_meal/data/data_source/remote/daily_entry_data_source.dart';
 import 'package:chss_noon_meal/data/repository/auth_repository.dart';
+import 'package:chss_noon_meal/data/repository/daily_entry_repository.dart';
 import 'package:chss_noon_meal/domain/use_case/auth/login_use_case.dart';
 import 'package:chss_noon_meal/domain/use_case/auth/logout_use_case.dart';
 import 'package:chss_noon_meal/domain/use_case/auth/save_user_details_use_case.dart';
+import 'package:chss_noon_meal/domain/use_case/daily_entry/get_student_entries_by_date_use_case.dart';
 import 'package:chss_noon_meal/presentation/home/bloc/home_bloc.dart';
 import 'package:chss_noon_meal/presentation/login/bloc/login_bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -57,15 +60,26 @@ Future<void> _registerDataSources() async {
       () => DefaultAuthDataSource(
         firestore: injector(),
       ),
+    )
+    ..registerLazySingleton<DailyEntryDataSource>(
+      () => DefaultDailyEntryDataSource(
+        firestore: injector(),
+      ),
     );
 }
 
 Future<void> _registerRepositories() async {
-  injector.registerLazySingleton<AuthRepository>(
-    () => DefaultAuthRepository(
-      dataSource: injector(),
-    ),
-  );
+  injector
+    ..registerLazySingleton<AuthRepository>(
+      () => DefaultAuthRepository(
+        dataSource: injector(),
+      ),
+    )
+    ..registerLazySingleton<DailyEntryRepository>(
+      () => DefaultDailyEntryRepository(
+        dataSource: injector(),
+      ),
+    );
 }
 
 // Domain layer dependencies
@@ -84,6 +98,11 @@ Future<void> _registerUseCases() async {
     ..registerLazySingleton<LogoutUseCase>(
       () => LogoutUseCase(
         preferenceDataSource: injector(),
+      ),
+    )
+    ..registerLazySingleton<GetDailyEntriesByDateUseCase>(
+      () => GetDailyEntriesByDateUseCase(
+        repository: injector(),
       ),
     );
 }
