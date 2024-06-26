@@ -1,5 +1,6 @@
 import 'package:chss_noon_meal/core/di/injector.dart';
 import 'package:chss_noon_meal/core/route/app_router.dart';
+import 'package:chss_noon_meal/core/theme/app_themes.dart';
 import 'package:chss_noon_meal/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +21,8 @@ class RootApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       routerConfig: AppRouter.router,
+      theme: AppThemes.light,
+      darkTheme: AppThemes.light,
       title: 'CHSS Noon Meal',
       debugShowCheckedModeBanner: false,
       // theme: AppTheme.light,
