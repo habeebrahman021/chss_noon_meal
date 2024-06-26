@@ -8,7 +8,7 @@ class User extends Equatable {
     required this.userRole,
     required this.profileImage,
     required this.classId,
-    required this.divisionId,
+    required this.division,
     required this.organizationId,
   });
 
@@ -18,7 +18,7 @@ class User extends Equatable {
   final int userRole;
   final String profileImage;
   final String classId;
-  final String divisionId;
+  final String division;
   final String organizationId;
 
   @override
@@ -29,7 +29,7 @@ class User extends Equatable {
         userRole,
         profileImage,
         classId,
-        divisionId,
+        division,
         organizationId,
       ];
 
@@ -40,7 +40,7 @@ class User extends Equatable {
     int? userRole,
     String? profileImage,
     String? classId,
-    String? divisionId,
+    String? division,
     String? organizationId,
   }) {
     return User(
@@ -50,7 +50,7 @@ class User extends Equatable {
       userRole: userRole ?? this.userRole,
       profileImage: profileImage ?? this.profileImage,
       classId: classId ?? this.classId,
-      divisionId: divisionId ?? this.divisionId,
+      division: division ?? this.division,
       organizationId: organizationId ?? this.organizationId,
     );
   }

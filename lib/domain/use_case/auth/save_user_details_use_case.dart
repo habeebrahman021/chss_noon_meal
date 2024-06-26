@@ -16,7 +16,7 @@ class SaveUserDetailsUseCase
     await preferenceDataSource.saveFullName(params.user.fullName);
     await preferenceDataSource.saveProfileImage(params.user.profileImage);
     await preferenceDataSource.saveClassId(params.user.classId);
-    await preferenceDataSource.saveDivisionId(params.user.divisionId);
+    await preferenceDataSource.saveDivision(params.user.division);
     await preferenceDataSource.saveOrganizationId(params.user.organizationId);
     await preferenceDataSource.saveUserRole(params.user.userRole);
   }

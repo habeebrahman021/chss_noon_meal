@@ -13,7 +13,7 @@ class LogoutUseCase extends UseCase<void, NoParams> {
     await preferenceDataSource.clearFullName();
     await preferenceDataSource.clearProfileImage();
     await preferenceDataSource.clearClassId();
-    await preferenceDataSource.clearDivisionId();
+    await preferenceDataSource.clearDivision();
     await preferenceDataSource.clearOrganizationId();
     await preferenceDataSource.clearUserRole();
   }

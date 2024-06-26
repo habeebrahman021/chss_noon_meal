@@ -10,7 +10,7 @@ extension UserExtension on UserModel {
       userRole: userRole ?? -1,
       profileImage: profileImage ?? '',
       classId: classId ?? '',
-      divisionId: divisionId ?? '',
+      division: division ?? '',
       organizationId: organizationId ?? '',
     );
   }

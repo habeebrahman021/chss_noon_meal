@@ -15,7 +15,7 @@ abstract class PreferenceDataSource {
 
   Future<void> saveClassId(String value);
 
-  Future<void> saveDivisionId(String value);
+  Future<void> saveDivision(String value);
 
   Future<String> getUserId();
 
@@ -31,7 +31,7 @@ abstract class PreferenceDataSource {
 
   Future<String> getClassId();
 
-  Future<String> getDivisionId();
+  Future<String> getDivision();
 
   Future<void> clearUserId();
 
@@ -47,7 +47,7 @@ abstract class PreferenceDataSource {
 
   Future<void> clearClassId();
 
-  Future<void> clearDivisionId();
+  Future<void> clearDivision();
 }
 
 class DefaultPreferenceDataSource implements PreferenceDataSource {
@@ -71,7 +71,7 @@ class DefaultPreferenceDataSource implements PreferenceDataSource {
   }
 
   @override
-  Future<String> getDivisionId() async {
+  Future<String> getDivision() async {
     return storage.getString(_keyDivisionId) ?? '';
   }
 
@@ -111,7 +111,7 @@ class DefaultPreferenceDataSource implements PreferenceDataSource {
   }
 
   @override
-  Future<void> saveDivisionId(String value) async {
+  Future<void> saveDivision(String value) async {
     await storage.setString(_keyDivisionId, value);
   }
 
@@ -151,7 +151,7 @@ class DefaultPreferenceDataSource implements PreferenceDataSource {
   }
 
   @override
-  Future<void> clearDivisionId() async {
+  Future<void> clearDivision() async {
     await storage.remove(_keyDivisionId);
   }
 

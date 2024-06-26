@@ -11,7 +11,7 @@ class UserModel {
     this.userRole,
     this.profileImage,
     this.classId,
-    this.divisionId,
+    this.division,
     this.organizationId,
   });
 
@@ -29,8 +29,8 @@ class UserModel {
   final String? profileImage;
   @JsonKey(name: 'class_id')
   final String? classId;
-  @JsonKey(name: 'division_id')
-  final String? divisionId;
+  @JsonKey(name: 'division')
+  final String? division;
   @JsonKey(name: 'organization_id')
   final String? organizationId;
 
