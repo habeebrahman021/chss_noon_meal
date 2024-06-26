@@ -7,6 +7,16 @@ abstract class DailyEntryRepository {
     required String date,
     required String organizationId,
   });
+
+  Future<String> saveDailyEntries({
+    required String date,
+    required int boysCount,
+    required int girlsCount,
+    required String classId,
+    required String className,
+    required String division,
+    required String organizationId,
+  });
 }
 
 class DefaultDailyEntryRepository implements DailyEntryRepository {
@@ -25,5 +35,26 @@ class DefaultDailyEntryRepository implements DailyEntryRepository {
     );
 
     return result.toEntityList();
+  }
+
+  @override
+  Future<String> saveDailyEntries({
+    required String date,
+    required int boysCount,
+    required int girlsCount,
+    required String classId,
+    required String className,
+    required String division,
+    required String organizationId,
+  }) {
+    return dataSource.saveDailyEntries(
+      date: date,
+      boysCount: boysCount,
+      girlsCount: girlsCount,
+      classId: classId,
+      className: className,
+      division: division,
+      organizationId: organizationId,
+    );
   }
 }
