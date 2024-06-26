@@ -13,7 +13,7 @@ class GetDailyEntriesByDateUseCase
   Future<List<DailyEntry>> execute(
     GetDailyEntriesByDateUseCaseParams params,
   ) {
-    return repository.getDailyEntries(
+    return repository.getDailyEntriesByDate(
       date: params.date,
       organizationId: params.organizationId,
     );

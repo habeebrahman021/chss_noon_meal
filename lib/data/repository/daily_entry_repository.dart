@@ -3,8 +3,14 @@ import 'package:chss_noon_meal/domain/entity/daily_entry/daily_entry.dart';
 import 'package:chss_noon_meal/domain/entity/daily_entry/daily_entry_extension.dart';
 
 abstract class DailyEntryRepository {
-  Future<List<DailyEntry>> getDailyEntries({
+  Future<List<DailyEntry>> getDailyEntriesByDate({
     required String date,
+    required String organizationId,
+  });
+
+  Future<List<DailyEntry>> getDailyEntriesByDateRange({
+    required String fromDate,
+    required String toDate,
     required String organizationId,
   });
 
@@ -25,12 +31,27 @@ class DefaultDailyEntryRepository implements DailyEntryRepository {
   final DailyEntryDataSource dataSource;
 
   @override
-  Future<List<DailyEntry>> getDailyEntries({
+  Future<List<DailyEntry>> getDailyEntriesByDate({
     required String date,
     required String organizationId,
   }) async {
-    final result = await dataSource.getDailyEntries(
+    final result = await dataSource.getDailyEntriesByDate(
       date: date,
+      organizationId: organizationId,
+    );
+
+    return result.toEntityList();
+  }
+
+  @override
+  Future<List<DailyEntry>> getDailyEntriesByDateRange({
+    required String fromDate,
+    required String toDate,
+    required String organizationId,
+  }) async {
+    final result = await dataSource.getDailyEntriesByDateRange(
+      fromDate: fromDate,
+      toDate: toDate,
       organizationId: organizationId,
     );
 
