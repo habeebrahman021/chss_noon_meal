@@ -5,6 +5,8 @@ import 'package:chss_noon_meal/presentation/login/screen/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../presentation/student_entry/screen/student_entry.dart';
+
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 class AppRouter {
@@ -20,7 +22,12 @@ class AppRouter {
       GoRoute(
         path: HomeScreen.route,
         name: HomeScreen.route,
-        builder: (context, state) => const HomeScreen(),
+        builder: (context, state) =>  HomeScreen(),
+      ),
+      GoRoute(
+        path: StudentEntry.route,
+        name: StudentEntry.route,
+        builder: (context, state) =>  StudentEntry(),
       ),
     ],
     redirect: (context, state) async {

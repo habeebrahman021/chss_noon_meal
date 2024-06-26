@@ -1,10 +1,13 @@
-import 'package:chss_noon_meal/core/di/injector.dart';
-import 'package:chss_noon_meal/core/enum/status.dart';
-import 'package:chss_noon_meal/presentation/home/screen/home_screen.dart';
-import 'package:chss_noon_meal/presentation/login/bloc/login_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
+
+import 'package:chss_noon_meal/core/di/injector.dart';
+import 'package:chss_noon_meal/core/enum/status.dart';
+import 'package:chss_noon_meal/core/theme/app_colors.dart';
+import 'package:chss_noon_meal/presentation/home/screen/home_screen.dart';
+import 'package:chss_noon_meal/presentation/login/bloc/login_bloc.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -16,9 +19,8 @@ class LoginScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => injector<LoginBloc>(),
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Login'),
-        ),
+        resizeToAvoidBottomInset: false,
+        backgroundColor: AppColors.white,
         body: BlocListener<LoginBloc, LoginState>(
           listener: (context, state) {
             if (state.loginStatus.isSuccess) {
@@ -27,32 +29,119 @@ class LoginScreen extends StatelessWidget {
           },
           child: BlocBuilder<LoginBloc, LoginState>(
             builder: (context, state) {
-              return Column(
-                children: [
-                  TextField(
-                    decoration: const InputDecoration(hintText: 'Email'),
-                    onChanged: (value) {
-                      context
-                          .read<LoginBloc>()
-                          .add(EmailTextUpdated(email: value));
-                    },
-                  ),
-                  TextField(
-                    decoration: const InputDecoration(hintText: 'Password'),
-                    onChanged: (value) {
-                      context
-                          .read<LoginBloc>()
-                          .add(PasswordTextUpdated(password: value));
-                    },
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      context.read<LoginBloc>().add(const LoginButtonPressed());
-                    },
-                    child: const Text('Login'),
-                  ),
-                ],
-              );
+              return Stack(
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Gap(60),
+                        Center(
+                          child: Image.asset(
+                            'images/login_bg.jpg',
+                            height: 250,
+                            width: double.infinity, // Set the desired height
+                          ),
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 20),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Sign In',
+                                style: TextStyle(
+                                  fontSize: 32,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.roundedRectangularBorderColor,
+                                ),
+                                textAlign: TextAlign.start,
+                              ),
+                              SizedBox(height: 8),
+                              Text(
+                                'Sign in to your Existing Account of\nGlobal Brands',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: AppColors.commentTextColor,
+                                ),
+                                textAlign: TextAlign.start,
+                              ),
+                            ],
+                          ),
+                        ),
+                        const Gap(35),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: TextField(
+                            decoration: InputDecoration(
+                              hintText: 'User Name',
+                              hintStyle: TextStyle(color: AppColors.textColor),
+                              filled: true,
+                              fillColor: AppColors.lightGrey,
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide.none,
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                            ),
+                            onChanged: (value) {
+                              context.read<LoginBloc>().add(EmailTextUpdated(email: value));
+                            },
+                          ),
+                        ),
+                        const Gap(35),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: TextField(
+                            decoration: InputDecoration(
+                              hintText: 'Password',
+                              hintStyle: TextStyle(color: AppColors.textColor),
+                              filled: true,
+                              fillColor: AppColors.lightGrey,
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide.none,
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                            ),
+                            onChanged: (value) {
+                              context.read<LoginBloc>().add(PasswordTextUpdated(password: value));
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                    Positioned(
+                      bottom: 30, // Distance from the bottom of the screen
+                      left: 0,
+                      right: 0,
+                      child: Center(
+                        child: GestureDetector(
+                          onTap: () {
+                            context.read<LoginBloc>().add(const LoginButtonPressed());
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.symmetric(horizontal: 24),
+                            padding: const EdgeInsets.symmetric(vertical: 16),
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              color: AppColors.app_color,
+                              borderRadius: BorderRadius.circular(25),
+                            ),
+                            child: const Center(
+                              child: Text(
+                                "Login",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color: AppColors.white,
+                                  fontFamily: "UbuntuMedium",
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                );
             },
           ),
         ),
