@@ -1,5 +1,7 @@
 import 'package:chss_noon_meal/core/di/injector.dart';
-import 'package:chss_noon_meal/data/data_source/local/preference/preference_data_source.dart';
+import 'package:chss_noon_meal/core/extension/either_extension.dart';
+import 'package:chss_noon_meal/domain/use_case/preference/get_saved_user_id_use_case.dart';
+import 'package:chss_noon_meal/domain/use_case/use_case.dart';
 import 'package:chss_noon_meal/presentation/home/screen/home_screen.dart';
 import 'package:chss_noon_meal/presentation/login/screen/login_screen.dart';
 import 'package:flutter/material.dart';
@@ -24,8 +26,10 @@ class AppRouter {
       ),
     ],
     redirect: (context, state) async {
-      final preference = injector<PreferenceDataSource>();
-      final userId = await preference.getUserId();
+      final getUserIdUseCase = injector<GetSavedUserIdUseCase>();
+      final result = await getUserIdUseCase(NoParams());
+
+      final userId = result.rightOrNull() ?? '';
       final loggedIn = userId.isNotEmpty;
 
       final loggingIn = state.fullPath == LoginScreen.route;

@@ -8,6 +8,7 @@ import 'package:chss_noon_meal/domain/use_case/auth/logout_use_case.dart';
 import 'package:chss_noon_meal/domain/use_case/auth/save_user_details_use_case.dart';
 import 'package:chss_noon_meal/domain/use_case/daily_entry/get_student_entries_by_date_use_case.dart';
 import 'package:chss_noon_meal/domain/use_case/daily_entry/save_daily_entry_use_case.dart';
+import 'package:chss_noon_meal/domain/use_case/preference/get_saved_user_id_use_case.dart';
 import 'package:chss_noon_meal/presentation/home/bloc/home_bloc.dart';
 import 'package:chss_noon_meal/presentation/login/bloc/login_bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -88,6 +89,11 @@ Future<void> _registerUseCases() async {
   injector
     ..registerLazySingleton<SaveUserDetailsUseCase>(
       () => SaveUserDetailsUseCase(
+        preferenceDataSource: injector(),
+      ),
+    )
+    ..registerLazySingleton<GetSavedUserIdUseCase>(
+      () => GetSavedUserIdUseCase(
         preferenceDataSource: injector(),
       ),
     )
