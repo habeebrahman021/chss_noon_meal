@@ -1,21 +1,22 @@
+import 'package:chss_noon_meal/core/extension/date_time_extension.dart';
 import 'package:chss_noon_meal/data/data_source/remote/daily_entry_data_source.dart';
 import 'package:chss_noon_meal/domain/entity/daily_entry/daily_entry.dart';
 import 'package:chss_noon_meal/domain/entity/daily_entry/daily_entry_extension.dart';
 
 abstract class DailyEntryRepository {
   Future<List<DailyEntry>> getDailyEntriesByDate({
-    required String date,
+    required DateTime date,
     required String organizationId,
   });
 
   Future<List<DailyEntry>> getDailyEntriesByDateRange({
-    required String fromDate,
-    required String toDate,
+    required DateTime fromDate,
+    required DateTime toDate,
     required String organizationId,
   });
 
   Future<String> saveDailyEntries({
-    required String date,
+    required DateTime date,
     required int boysCount,
     required int girlsCount,
     required String classId,
@@ -32,7 +33,7 @@ class DefaultDailyEntryRepository implements DailyEntryRepository {
 
   @override
   Future<List<DailyEntry>> getDailyEntriesByDate({
-    required String date,
+    required DateTime date,
     required String organizationId,
   }) async {
     final result = await dataSource.getDailyEntriesByDate(
@@ -45,13 +46,13 @@ class DefaultDailyEntryRepository implements DailyEntryRepository {
 
   @override
   Future<List<DailyEntry>> getDailyEntriesByDateRange({
-    required String fromDate,
-    required String toDate,
+    required DateTime fromDate,
+    required DateTime toDate,
     required String organizationId,
   }) async {
     final result = await dataSource.getDailyEntriesByDateRange(
-      fromDate: fromDate,
-      toDate: toDate,
+      fromDate: fromDate.timestamp,
+      toDate: toDate.timestamp,
       organizationId: organizationId,
     );
 
@@ -60,7 +61,7 @@ class DefaultDailyEntryRepository implements DailyEntryRepository {
 
   @override
   Future<String> saveDailyEntries({
-    required String date,
+    required DateTime date,
     required int boysCount,
     required int girlsCount,
     required String classId,
@@ -69,7 +70,7 @@ class DefaultDailyEntryRepository implements DailyEntryRepository {
     required String organizationId,
   }) {
     return dataSource.saveDailyEntries(
-      date: date,
+      date: date.timestamp,
       boysCount: boysCount,
       girlsCount: girlsCount,
       classId: classId,

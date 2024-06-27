@@ -26,7 +26,7 @@ class GetDailyEntriesByDateUseCaseParams extends Equatable {
     required this.organizationId,
   });
 
-  final String date;
+  final DateTime date;
   final String organizationId;
 
   @override
