@@ -11,9 +11,12 @@ import 'package:chss_noon_meal/domain/use_case/auth/save_user_details_use_case.d
 import 'package:chss_noon_meal/domain/use_case/config/get_class_list_use_case.dart';
 import 'package:chss_noon_meal/domain/use_case/daily_entry/get_student_entries_by_date_use_case.dart';
 import 'package:chss_noon_meal/domain/use_case/daily_entry/save_daily_entry_use_case.dart';
+import 'package:chss_noon_meal/domain/use_case/daily_entry/update_class_list_with_daily_entries_use_case.dart';
+import 'package:chss_noon_meal/domain/use_case/preference/get_saved_organization_id_use_case.dart';
 import 'package:chss_noon_meal/domain/use_case/preference/get_saved_user_id_use_case.dart';
 import 'package:chss_noon_meal/presentation/home/bloc/home_bloc.dart';
 import 'package:chss_noon_meal/presentation/login/bloc/login_bloc.dart';
+import 'package:chss_noon_meal/presentation/reports/bloc/reports_bloc.dart';
 import 'package:chss_noon_meal/presentation/student_entry/bloc/daily_entry_bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get_it/get_it.dart';
@@ -136,6 +139,14 @@ Future<void> _registerUseCases() async {
         repository: injector(),
         preferenceDataSource: injector(),
       ),
+    )
+    ..registerLazySingleton<UpdateClassListWithDailyEntriesUseCase>(
+      UpdateClassListWithDailyEntriesUseCase.new,
+    )
+    ..registerLazySingleton<GetSavedOrganizationIdUseCase>(
+      () => GetSavedOrganizationIdUseCase(
+        preferenceDataSource: injector(),
+      ),
     );
 }
 
@@ -157,5 +168,13 @@ Future<void> _registerBlocs() async {
       () => DailyEntryBloc(
         getClassListUseCase: injector(),
       )..add(GetClassList()),
+    )
+    ..registerFactory<ReportsBloc>(
+      () => ReportsBloc(
+        getClassListUseCase: injector(),
+        getDailyEntriesByDateUseCase: injector(),
+        updateClassListWithDailyEntriesUseCase: injector(),
+        getSavedOrganizationIdUseCase: injector(),
+      ),
     );
 }
