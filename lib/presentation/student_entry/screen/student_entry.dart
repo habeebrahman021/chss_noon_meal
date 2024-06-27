@@ -118,7 +118,7 @@ class StudentEntry extends StatelessWidget {
                         child: TextField(
                           decoration: InputDecoration(
                             hintText: 'Enter the Division',
-                            hintStyle: TextStyle(color: AppColors.textColor,fontSize: 12),
+                            hintStyle: TextStyle(color: AppColors.textColor),
                             border: UnderlineInputBorder(
                               borderSide: BorderSide(color: AppColors.textColor), // Default bottom border
                             ),
@@ -151,7 +151,7 @@ class StudentEntry extends StatelessWidget {
                         child: TextField(
                           decoration: InputDecoration(
                             hintText: 'Enter the boys count',
-                            hintStyle: TextStyle(color: AppColors.textColor,fontSize: 12),
+                            hintStyle: TextStyle(color: AppColors.textColor),
                             border: UnderlineInputBorder(
                               borderSide: BorderSide(color: AppColors.textColor), // Default bottom border
                             ),
@@ -184,7 +184,7 @@ class StudentEntry extends StatelessWidget {
                         child: TextField(
                           decoration: InputDecoration(
                             hintText: 'Enter the girls count',
-                            hintStyle: TextStyle(color: AppColors.textColor,fontSize: 12),
+                            hintStyle: TextStyle(color: AppColors.textColor),
                             border: UnderlineInputBorder(
                               borderSide: BorderSide(color: AppColors.textColor), // Default bottom border
                             ),
