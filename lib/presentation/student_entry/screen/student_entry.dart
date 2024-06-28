@@ -21,36 +21,42 @@ class StudentEntry extends StatelessWidget {
     "Class 9",
     "Class 10"
   ];
-
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => injector<DailyEntryBloc>(),
       child: Scaffold(
         backgroundColor: AppColors.white,
-        appBar: AppBar(
+       /* appBar: AppBar(
           backgroundColor: AppColors.white,
           title: const Text(
-            'Add Count',
+            '',
             style: TextStyle(color: AppColors.white),
           ),
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
-            onPressed: () => GoRouter.of(context).pushReplacementNamed(
-                HomeScreen.route), // Go back using GoRouter
+            onPressed: () => GoRouter.of(context).pop() // Go back using GoRouter
           ),
-        ),
+        ),*/
         body: BlocBuilder<DailyEntryBloc, DailyEntryState>(
           builder: (context, state) {
-            return SingleChildScrollView(
-              child: IntrinsicHeight(
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(
-                    minHeight: MediaQuery.of(context).size.height * 0.86,
-                  ),
-                  child: Column(
-                    children: [
-                      Expanded(
+            return SafeArea(
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                
+                    Padding(
+                      padding: const EdgeInsets.only(top:15.0,left: 5),
+                      child: IconButton(
+                          icon: const Icon(Icons.arrow_back,color: AppColors.black,),
+                          onPressed: () => GoRouter.of(context).pop() // Go back using GoRouter
+                      ),
+                    ),
+                    Expanded(
+                      child: SingleChildScrollView(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -97,11 +103,18 @@ class StudentEntry extends StatelessWidget {
                             Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 20),
-                              child: TextField(
+                              child: TextFormField(
+                                readOnly: true,
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please choose class';
+                                  }
+                                  return null;
+                                },
                                 decoration: InputDecoration(
-                                  hintText: 'Enter the class',
+                                  hintText: 'Select Class',
                                   hintStyle: TextStyle(
-                                      color: AppColors.textColor, fontSize: 12),
+                                      color: AppColors.textColor,),
                                   border: UnderlineInputBorder(
                                     borderSide: BorderSide(
                                         color: AppColors
@@ -141,9 +154,16 @@ class StudentEntry extends StatelessWidget {
                             Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 20),
-                              child: TextField(
+                              child: TextFormField(
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Choose your division';
+                                  }
+                                  return null;
+                                },
+                                readOnly: true,
                                 decoration: InputDecoration(
-                                  hintText: 'Enter the Division',
+                                  hintText: 'Select Division',
                                   hintStyle:
                                       TextStyle(color: AppColors.textColor),
                                   border: UnderlineInputBorder(
@@ -182,9 +202,17 @@ class StudentEntry extends StatelessWidget {
                             Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 20),
-                              child: TextField(
+                              child: TextFormField(
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please enter boys count';
+                                  }
+                                  return null;
+                                },
+                                keyboardType: TextInputType.number,
+                                textInputAction: TextInputAction.next,
                                 decoration: InputDecoration(
-                                  hintText: 'Enter the boys count',
+                                  hintText: 'Enter Boys Count',
                                   hintStyle:
                                       TextStyle(color: AppColors.textColor),
                                   border: UnderlineInputBorder(
@@ -223,9 +251,17 @@ class StudentEntry extends StatelessWidget {
                             Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 20),
-                              child: TextField(
+                              child: TextFormField(
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please enter girls count';
+                                  }
+                                  return null;
+                                },
+                                keyboardType: TextInputType.number,
+                                textInputAction: TextInputAction.done,
                                 decoration: InputDecoration(
-                                  hintText: 'Enter the girls count',
+                                  hintText: 'Enter Girls Count',
                                   hintStyle:
                                       TextStyle(color: AppColors.textColor),
                                   border: UnderlineInputBorder(
@@ -251,15 +287,15 @@ class StudentEntry extends StatelessWidget {
                           ],
                         ),
                       ),
-                      Row(
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      child: Row(
                         children: [
                           Expanded(
-                            flex: 1,
                             child: GestureDetector(
                               onTap: () {},
                               child: Container(
-                                margin:
-                                    const EdgeInsets.symmetric(horizontal: 20),
                                 width: double.infinity,
                                 height: 45,
                                 decoration: BoxDecoration(
@@ -282,13 +318,21 @@ class StudentEntry extends StatelessWidget {
                               ),
                             ),
                           ),
+                          Gap(25),
                           Expanded(
-                            flex: 1,
+                
                             child: GestureDetector(
-                              onTap: () {},
+                              onTap: () {
+                                if (_formKey.currentState!.validate()) {
+                                  // If the form is valid, display a snackbar. In the real world,
+                                  // you'd often call a server or save the information in a database.
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(content: Text('Processing Data')),
+                                  );
+                                }
+                              },
                               child: Container(
-                                margin:
-                                    const EdgeInsets.symmetric(horizontal: 20),
+                
                                 width: double.infinity,
                                 height: 45,
                                 decoration: BoxDecoration(
@@ -314,8 +358,9 @@ class StudentEntry extends StatelessWidget {
                           ),
                         ],
                       ),
-                    ],
-                  ),
+                    ),
+                
+                  ],
                 ),
               ),
             );

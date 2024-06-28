@@ -196,34 +196,36 @@ class HomeScreen extends StatelessWidget {
                                 'images/report-card.png',
                                 width: 70,
                                 height: 70,
-                                 color:AppColors.white,
+                                 color:AppColors.black,
                               ),
                               Gap(10),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Report",
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontFamily: 'UbuntuMedium',
-                                      fontWeight: FontWeight.bold,
-                                      color: AppColors.white,
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Report",
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontFamily: 'UbuntuMedium',
+                                        fontWeight: FontWeight.bold,
+                                        color: AppColors.black,
+                                      ),
                                     ),
-                                  ),
-                                  Gap(3),
-                                  Text(
-                                    'Detailed reports on students lunch \nChoices and numbers',
-                                    style: TextStyle(
-                                      fontSize: 13,
-                                      color: AppColors.white,
+                                    Gap(3),
+                                    Text(
+                                      'Detailed reports on students lunch \nChoices and numbers',
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        color: AppColors.black,
+                                      ),
+                                      textAlign: TextAlign.start,
                                     ),
-                                    textAlign: TextAlign.start,
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
-                              Gap(10),
-                              Icon(Icons.arrow_forward,color: AppColors.white,),
+                              Gap(5),
+                              Icon(Icons.arrow_forward,color: AppColors.black,),
                             ],
                           ),
                         ),
@@ -297,7 +299,7 @@ class HomeScreen extends StatelessWidget {
 
               onPressed: () {
                 // Action to perform when the button is pressed
-                GoRouter.of(context).pushReplacementNamed(StudentEntry.route);
+                GoRouter.of(context).pushNamed(StudentEntry.route);
                 print('FAB pressed');
               },
               child: Icon(Icons.add,color: AppColors.white,),
