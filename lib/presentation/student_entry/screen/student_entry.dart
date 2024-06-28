@@ -18,7 +18,7 @@ class StudentEntry extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: AppColors.white,
         title: const Text(
-          'Add Count',
+          '',
           style: TextStyle(color: AppColors.white),
         ),
         leading: IconButton(

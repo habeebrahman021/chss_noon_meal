@@ -73,7 +73,7 @@ class HomeScreen extends StatelessWidget {
 
                       Gap(5),
                       Text(
-                        'Welcome to the dashboard',
+                        'Welcome to the Dashboard',
                         style: TextStyle(
                           //  fontSize: 18,
                           color: AppColors.title_color,
@@ -167,11 +167,11 @@ class HomeScreen extends StatelessWidget {
                           ],
                         ),
                       ),
-                      Gap(30),
+                      Gap(40),
                       Container(
                         width: double.infinity,
                         decoration: BoxDecoration(
-                          color: AppColors.targetSectionColor,
+                          color: AppColors.white,
                           // Container background color
                           borderRadius: BorderRadius.circular(10.0),
                           boxShadow: [
@@ -189,40 +189,41 @@ class HomeScreen extends StatelessWidget {
                         ),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                             crossAxisAlignment: CrossAxisAlignment.start,
-                            //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          child: Row(
+                            //mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
+                              Image.asset(
+                                'images/report-card.png',
+                                width: 70,
+                                height: 70,
+                                 color:AppColors.white,
+                              ),
+                              Gap(10),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Image.asset(
-                                    'images/report-card.png',
-                                    width: 80,
-                                    height: 80,
-                                     color:AppColors.white,
+                                  Text(
+                                    "Report",
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontFamily: 'UbuntuMedium',
+                                      fontWeight: FontWeight.bold,
+                                      color: AppColors.white,
+                                    ),
+                                  ),
+                                  Gap(3),
+                                  Text(
+                                    'Detailed reports on students lunch \nChoices and numbers',
+                                    style: TextStyle(
+                                      fontSize: 13,
+                                      color: AppColors.white,
+                                    ),
+                                    textAlign: TextAlign.start,
                                   ),
                                 ],
                               ),
-                              Text(
-                                "Report",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontFamily: 'UbuntuMedium',
-                                  fontWeight: FontWeight.bold,
-                                  color: AppColors.white,
-                                ),
-                              ),
-                             /* IconButton(
-                                onPressed: () {
-                                  context.read<HomeBloc>().add(LogoutButtonPressed());
-                                },
-                                icon: const Icon(
-                                  Icons.arrow_forward_ios,
-                                  color: AppColors.black,
-                                  size: 20,
-                                ),
-                              )*/
+                              Gap(10),
+                              Icon(Icons.arrow_forward,color: AppColors.white,),
                             ],
                           ),
                         ),
