@@ -35,7 +35,7 @@ class SaveDailyEntryUseCaseParams extends Equatable {
     required this.organizationId,
   });
 
-  final String date;
+  final DateTime date;
   final int boysCount;
   final int girlsCount;
   final String classId;

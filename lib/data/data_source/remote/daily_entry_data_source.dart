@@ -1,21 +1,22 @@
 import 'package:chss_noon_meal/core/exceptions.dart';
+import 'package:chss_noon_meal/core/extension/date_time_extension.dart';
 import 'package:chss_noon_meal/data/model/daily_entry/daily_entry_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 abstract class DailyEntryDataSource {
   Future<List<DailyEntryModel>> getDailyEntriesByDate({
-    required String date,
+    required DateTime date,
     required String organizationId,
   });
 
   Future<List<DailyEntryModel>> getDailyEntriesByDateRange({
-    required String fromDate,
-    required String toDate,
+    required Timestamp fromDate,
+    required Timestamp toDate,
     required String organizationId,
   });
 
   Future<String> saveDailyEntries({
-    required String date,
+    required Timestamp date,
     required int boysCount,
     required int girlsCount,
     required String classId,
@@ -34,12 +35,13 @@ class DefaultDailyEntryDataSource implements DailyEntryDataSource {
 
   @override
   Future<List<DailyEntryModel>> getDailyEntriesByDate({
-    required String date,
+    required DateTime date,
     required String organizationId,
   }) async {
     final result = await firestore
         .collection('daily_daily_entries')
-        .where('date', isEqualTo: date)
+        .where('date', isGreaterThanOrEqualTo: date.startOfDay)
+        .where('date', isLessThanOrEqualTo: date.endOfDay)
         .where('organization_id', isEqualTo: organizationId)
         .get();
 
@@ -50,15 +52,14 @@ class DefaultDailyEntryDataSource implements DailyEntryDataSource {
 
   @override
   Future<List<DailyEntryModel>> getDailyEntriesByDateRange({
-    required String fromDate,
-    required String toDate,
+    required Timestamp fromDate,
+    required Timestamp toDate,
     required String organizationId,
   }) async {
-    // TODO(Habeeb): Update the date range logic.Check with Date() or String() for date range.
     final result = await firestore
         .collection('daily_daily_entries')
-        .where('date', isGreaterThan: fromDate)
-        .where('date', isLessThan: toDate)
+        .where('date', isGreaterThanOrEqualTo: fromDate)
+        .where('date', isLessThanOrEqualTo: toDate)
         .where('organization_id', isEqualTo: organizationId)
         .get();
 
@@ -69,7 +70,7 @@ class DefaultDailyEntryDataSource implements DailyEntryDataSource {
 
   @override
   Future<String> saveDailyEntries({
-    required String date,
+    required Timestamp date,
     required int boysCount,
     required int girlsCount,
     required String classId,

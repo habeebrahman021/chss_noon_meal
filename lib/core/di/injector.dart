@@ -1,16 +1,23 @@
 import 'package:chss_noon_meal/data/data_source/local/preference/preference_data_source.dart';
 import 'package:chss_noon_meal/data/data_source/remote/auth_data_source.dart';
+import 'package:chss_noon_meal/data/data_source/remote/config_data_source.dart';
 import 'package:chss_noon_meal/data/data_source/remote/daily_entry_data_source.dart';
 import 'package:chss_noon_meal/data/repository/auth_repository.dart';
+import 'package:chss_noon_meal/data/repository/config_repository.dart';
 import 'package:chss_noon_meal/data/repository/daily_entry_repository.dart';
 import 'package:chss_noon_meal/domain/use_case/auth/login_use_case.dart';
 import 'package:chss_noon_meal/domain/use_case/auth/logout_use_case.dart';
 import 'package:chss_noon_meal/domain/use_case/auth/save_user_details_use_case.dart';
+import 'package:chss_noon_meal/domain/use_case/config/get_class_list_use_case.dart';
 import 'package:chss_noon_meal/domain/use_case/daily_entry/get_student_entries_by_date_use_case.dart';
 import 'package:chss_noon_meal/domain/use_case/daily_entry/save_daily_entry_use_case.dart';
+import 'package:chss_noon_meal/domain/use_case/daily_entry/update_class_list_with_daily_entries_use_case.dart';
+import 'package:chss_noon_meal/domain/use_case/preference/get_saved_organization_id_use_case.dart';
 import 'package:chss_noon_meal/domain/use_case/preference/get_saved_user_id_use_case.dart';
 import 'package:chss_noon_meal/presentation/home/bloc/home_bloc.dart';
 import 'package:chss_noon_meal/presentation/login/bloc/login_bloc.dart';
+import 'package:chss_noon_meal/presentation/reports/bloc/reports_bloc.dart';
+import 'package:chss_noon_meal/presentation/student_entry/bloc/daily_entry_bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -67,6 +74,11 @@ Future<void> _registerDataSources() async {
       () => DefaultDailyEntryDataSource(
         firestore: injector(),
       ),
+    )
+    ..registerLazySingleton<ConfigDataSource>(
+      () => DefaultConfigDataSource(
+        firestore: injector(),
+      ),
     );
 }
 
@@ -79,6 +91,11 @@ Future<void> _registerRepositories() async {
     )
     ..registerLazySingleton<DailyEntryRepository>(
       () => DefaultDailyEntryRepository(
+        dataSource: injector(),
+      ),
+    )
+    ..registerLazySingleton<ConfigRepository>(
+      () => DefaultConfigRepository(
         dataSource: injector(),
       ),
     );
@@ -116,6 +133,20 @@ Future<void> _registerUseCases() async {
       () => SaveDailyEntryUseCase(
         dailyEntryRepository: injector(),
       ),
+    )
+    ..registerLazySingleton<GetClassListUseCase>(
+      () => GetClassListUseCase(
+        repository: injector(),
+        preferenceDataSource: injector(),
+      ),
+    )
+    ..registerLazySingleton<UpdateClassListWithDailyEntriesUseCase>(
+      UpdateClassListWithDailyEntriesUseCase.new,
+    )
+    ..registerLazySingleton<GetSavedOrganizationIdUseCase>(
+      () => GetSavedOrganizationIdUseCase(
+        preferenceDataSource: injector(),
+      ),
     );
 }
 
@@ -131,6 +162,19 @@ Future<void> _registerBlocs() async {
     ..registerFactory<HomeBloc>(
       () => HomeBloc(
         logoutUseCase: injector(),
+      ),
+    )
+    ..registerFactory<DailyEntryBloc>(
+      () => DailyEntryBloc(
+        getClassListUseCase: injector(),
+      )..add(GetClassList()),
+    )
+    ..registerFactory<ReportsBloc>(
+      () => ReportsBloc(
+        getClassListUseCase: injector(),
+        getDailyEntriesByDateUseCase: injector(),
+        updateClassListWithDailyEntriesUseCase: injector(),
+        getSavedOrganizationIdUseCase: injector(),
       ),
     );
 }
