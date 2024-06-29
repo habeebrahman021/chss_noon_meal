@@ -12,6 +12,8 @@ import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
+import '../../reports/screen/entry_report.dart';
+
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
@@ -269,6 +271,71 @@ class HomeScreen extends StatelessWidget {
                                     ),
                                   ),
                                 ],
+                          InkWell(
+                            onTap: () async {
+                              await GoRouter.of(context)
+                                  .pushNamed(EntryReport.route);
+                            },
+                            child: Container(
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                color: AppColors.white,
+                                // Container background color
+                                borderRadius: BorderRadius.circular(10),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.3),
+                                    // Shadow color with transparency
+                                    spreadRadius: 5,
+                                    // Adjusts how far the shadow spreads
+                                    blurRadius: 7,
+                                    // Adjusts how blurry the shadow is
+                                    offset: const Offset(
+                                      0,
+                                      3,
+                                    ), // Moves the shadow slightly down and right
+                                  ),
+                                ],
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8),
+                                child: Row(
+                                  //mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Image.asset(
+                                      'images/report-card.png',
+                                      width: 70,
+                                      height: 70,
+                                      color: AppColors.black,
+                                    ),
+                                    const Gap(10),
+                                    const Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Report',
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold,
+                                              color: AppColors.black,
+                                            ),
+                                          ),
+                                          Gap(3),
+                                          Text(
+                                            'View detailed report of students receiving noon meals in each class and division',
+                                            style: TextStyle(
+                                              fontSize: 13,
+                                              color: AppColors.black,
+                                            ),
+                                            textAlign: TextAlign.start,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
