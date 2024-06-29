@@ -11,6 +11,10 @@ class ReportsState extends Equatable {
   final List<DailyEntry> dailyEntryList;
   final Status status;
 
+  String get formattedDate {
+    return date.toStringFormatted('dd MMM yyyy');
+  }
+
   @override
   List<Object?> get props => [
         dailyEntryList,

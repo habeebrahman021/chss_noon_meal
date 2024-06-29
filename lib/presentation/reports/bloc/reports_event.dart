@@ -6,3 +6,12 @@ class GetDailyEntriesByDate extends ReportsEvent {
   @override
   List<Object?> get props => [];
 }
+
+class DateSelected extends ReportsEvent {
+  DateSelected({required this.date});
+
+  final DateTime date;
+
+  @override
+  List<Object?> get props => [date];
+}

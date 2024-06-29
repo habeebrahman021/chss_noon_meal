@@ -2,6 +2,7 @@ import 'package:chss_noon_meal/core/exceptions.dart';
 import 'package:chss_noon_meal/core/extension/date_time_extension.dart';
 import 'package:chss_noon_meal/data/model/daily_entry/daily_entry_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 
 abstract class DailyEntryDataSource {
   Future<List<DailyEntryModel>> getDailyEntriesByDate({
@@ -65,7 +66,13 @@ class DefaultDailyEntryDataSource implements DailyEntryDataSource {
         .where(dateFieldName, isGreaterThanOrEqualTo: date.startOfDay)
         .where(dateFieldName, isLessThanOrEqualTo: date.endOfDay)
         .where(organizationIdFieldName, isEqualTo: organizationId)
-        .get();
+        .get()
+        .onError((error, stackTrace) {
+      if (kDebugMode) {
+        print(error);
+      }
+      throw FailureException(error.toString());
+    });
 
     return result.docs.map((doc) {
       final data = doc.data();
@@ -85,7 +92,13 @@ class DefaultDailyEntryDataSource implements DailyEntryDataSource {
         .where(dateFieldName, isGreaterThanOrEqualTo: fromDate)
         .where(dateFieldName, isLessThanOrEqualTo: toDate)
         .where(organizationIdFieldName, isEqualTo: organizationId)
-        .get();
+        .get()
+        .onError((error, stackTrace) {
+      if (kDebugMode) {
+        print(error);
+      }
+      throw FailureException(error.toString());
+    });
 
     return result.docs.map((doc) {
       final data = doc.data();
@@ -113,6 +126,9 @@ class DefaultDailyEntryDataSource implements DailyEntryDataSource {
       divisionFieldName: division,
       organizationIdFieldName: organizationId,
     }).onError((error, stackTrace) {
+      if (kDebugMode) {
+        print(error);
+      }
       throw FailureException('Error saving daily entry: $error');
     });
     return result.id;

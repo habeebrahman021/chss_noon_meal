@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:chss_noon_meal/core/enum/status.dart';
+import 'package:chss_noon_meal/core/extension/date_time_extension.dart';
 import 'package:chss_noon_meal/core/extension/either_extension.dart';
 import 'package:chss_noon_meal/domain/entity/daily_entry/daily_entry.dart';
 import 'package:chss_noon_meal/domain/use_case/config/get_class_list_use_case.dart';
@@ -24,6 +25,7 @@ class ReportsBloc extends Bloc<ReportsEvent, ReportsState> {
   }) : super(ReportsState()) {
     on<ReportsEvent>((event, emit) {});
     on<GetDailyEntriesByDate>(_onGetDailyEntriesByDate);
+    on<DateSelected>(_onDateSelected);
   }
 
   final GetClassListUseCase getClassListUseCase;
@@ -36,6 +38,7 @@ class ReportsBloc extends Bloc<ReportsEvent, ReportsState> {
     GetDailyEntriesByDate event,
     Emitter<ReportsState> emit,
   ) async {
+    emit(state.copyWith(status: Status.loading));
     // Get Organization Id
     final orgIdResult = await getSavedOrganizationIdUseCase(NoParams());
     final orgId = orgIdResult.rightOrNull() ?? '';
@@ -67,12 +70,22 @@ class ReportsBloc extends Bloc<ReportsEvent, ReportsState> {
     );
 
     if (result.isRight) {
-      state.copyWith(
-        status: Status.success,
-        dailyEntryList: result.right,
+      emit(
+        state.copyWith(
+          status: Status.success,
+          dailyEntryList: result.right,
+        ),
       );
     } else {
-      state.copyWith(status: Status.failure);
+      emit(state.copyWith(status: Status.failure));
     }
+  }
+
+  Future<void> _onDateSelected(
+    DateSelected event,
+    Emitter<ReportsState> emit,
+  ) async {
+    emit(state.copyWith(date: event.date));
+    add(GetDailyEntriesByDate());
   }
 }

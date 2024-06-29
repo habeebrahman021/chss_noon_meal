@@ -209,6 +209,6 @@ Future<void> _registerBlocs() async {
         getDailyEntriesByDateUseCase: injector(),
         updateClassListWithDailyEntriesUseCase: injector(),
         getSavedOrganizationIdUseCase: injector(),
-      ),
+      )..add(GetDailyEntriesByDate()),
     );
 }
