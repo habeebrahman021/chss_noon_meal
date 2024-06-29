@@ -110,7 +110,7 @@ class EntryReportState extends State<EntryReport> {
                             if (value != null) {
                               context
                                   .read<ReportsBloc>()
-                                  .add(DateSelected(date: value!));
+                                  .add(DateSelected(date: value));
                             }
                           });
 
@@ -209,9 +209,5 @@ class EntryReportState extends State<EntryReport> {
         ),
       ),
     );
-  }
-
-  Future<void> _showDatePicker() async {
-    final bloc = context.read<ReportsBloc>();
   }
 }
