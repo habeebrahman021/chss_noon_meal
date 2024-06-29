@@ -11,9 +11,11 @@ import 'package:chss_noon_meal/domain/use_case/auth/save_user_details_use_case.d
 import 'package:chss_noon_meal/domain/use_case/config/get_class_list_use_case.dart';
 import 'package:chss_noon_meal/domain/use_case/daily_entry/check_entry_exists_with_date_and_class_use_case.dart';
 import 'package:chss_noon_meal/domain/use_case/daily_entry/get_student_entries_by_date_use_case.dart';
+import 'package:chss_noon_meal/domain/use_case/daily_entry/get_student_entry_count_by_date.dart';
 import 'package:chss_noon_meal/domain/use_case/daily_entry/save_daily_entry_use_case.dart';
 import 'package:chss_noon_meal/domain/use_case/daily_entry/update_class_list_with_daily_entries_use_case.dart';
 import 'package:chss_noon_meal/domain/use_case/daily_entry/update_daily_entry_use_case.dart';
+import 'package:chss_noon_meal/domain/use_case/preference/get_saved_full_name_use_case.dart';
 import 'package:chss_noon_meal/domain/use_case/preference/get_saved_organization_id_use_case.dart';
 import 'package:chss_noon_meal/domain/use_case/preference/get_saved_user_id_use_case.dart';
 import 'package:chss_noon_meal/presentation/home/bloc/home_bloc.dart';
@@ -161,6 +163,17 @@ Future<void> _registerUseCases() async {
         preferenceDataSource: injector(),
         repository: injector(),
       ),
+    )
+    ..registerLazySingleton<GetSavedFullNameUseCase>(
+      () => GetSavedFullNameUseCase(
+        preferenceDataSource: injector(),
+      ),
+    )
+    ..registerLazySingleton<GetStudentEntryCountByDate>(
+      () => GetStudentEntryCountByDate(
+        preferenceDataSource: injector(),
+        dailyEntryRepository: injector(),
+      ),
     );
 }
 
@@ -176,7 +189,11 @@ Future<void> _registerBlocs() async {
     ..registerFactory<HomeBloc>(
       () => HomeBloc(
         logoutUseCase: injector(),
-      ),
+        getStudentEntryCountByDate: injector(),
+        getSavedFullNameUseCase: injector(),
+      )
+        ..add(HomeEventInitial())
+        ..add(GetStudentEntryCount()),
     )
     ..registerFactory<DailyEntryBloc>(
       () => DailyEntryBloc(
