@@ -1,18 +1,19 @@
+import 'package:chss_noon_meal/core/di/injector.dart';
 import 'package:chss_noon_meal/core/enum/status.dart';
+import 'package:chss_noon_meal/core/theme/app_colors.dart';
+import 'package:chss_noon_meal/data/model/daily_entry/daily_entry_model.dart';
+import 'package:chss_noon_meal/presentation/reports/bloc/reports_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
-import '../../../core/di/injector.dart';
-import '../../../core/theme/app_colors.dart';
-import '../../../data/model/daily_entry/daily_entry_model.dart';
-import '../../../domain/entity/daily_entry/daily_entry.dart';
-import '../bloc/reports_bloc.dart';
-import 'package:syncfusion_flutter_core/theme.dart';
 class EntryReport extends StatefulWidget {
   const EntryReport({super.key});
+
   static const String route = '/entry';
+
   @override
   State<EntryReport> createState() => EntryReportState();
 }
@@ -30,11 +31,11 @@ class EntryReportState extends State<EntryReport> {
   }
 
   List<DailyEntryModel> getEntry() {
-    return[
-      DailyEntryModel(date: "29-06-2024",className:"8",division: "A",boysCount: 22,girlsCount: 15),
-      DailyEntryModel(date: "28-06-2024",className:"8",division: "A",boysCount: 22,girlsCount: 15),
-      DailyEntryModel(date: "27-06-2024",className:"8",division: "A",boysCount: 22,girlsCount: 15),
-      DailyEntryModel(date: "26-06-2024",className:"8",division: "A",boysCount: 22,girlsCount: 15),
+    return [
+      // DailyEntryModel(date: "29-06-2024",className:"8",division: "A",boysCount: 22,girlsCount: 15),
+      // DailyEntryModel(date: "28-06-2024",className:"8",division: "A",boysCount: 22,girlsCount: 15),
+      // DailyEntryModel(date: "27-06-2024",className:"8",division: "A",boysCount: 22,girlsCount: 15),
+      // DailyEntryModel(date: "26-06-2024",className:"8",division: "A",boysCount: 22,girlsCount: 15),
     ];
     /*return [
       Employee(10001, 'James', 'Project Lead', 20000),
@@ -49,6 +50,7 @@ class EntryReportState extends State<EntryReport> {
       Employee(10010, 'Grimes', 'Developer', 15000)
     ];*/
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -57,15 +59,15 @@ class EntryReportState extends State<EntryReport> {
         builder: (context, state) {
           return Scaffold(
             backgroundColor: AppColors.white,
-            appBar:  AppBar(
+            appBar: AppBar(
               backgroundColor: AppColors.app_color,
               elevation: 0,
               iconTheme: IconThemeData(
-                color:AppColors.white, // Change this to your desired color
+                color: AppColors.white, // Change this to your desired color
               ),
               title: const Text(
                 'Report',
-                style: TextStyle(color: AppColors.white,fontSize: 20),
+                style: TextStyle(color: AppColors.white, fontSize: 20),
               ),
               /* actions: [
            IconButton(
@@ -88,63 +90,70 @@ class EntryReportState extends State<EntryReport> {
                 builder: (context, state) {
                   return Center(
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 15, right: 15,top: 30),
+                      padding:
+                          const EdgeInsets.only(left: 15, right: 15, top: 30),
                       child: SfDataGridTheme(
-                        data: SfDataGridThemeData(headerColor: AppColors.commitmentstatusbg),
+                        data: SfDataGridThemeData(
+                            headerColor: AppColors.commitmentstatusbg),
                         child: SfDataGrid(
-                          source: entryDataSource,
-                          columnWidthMode: ColumnWidthMode.fill,
-                         // columnWidthCalculationRange: ColumnWidthCalculationRange.visibleRows,
-                          columns: [
-                            GridColumn(
-                                columnName: 'date',
-                                label: Container(
-                                    padding: EdgeInsets.symmetric(horizontal: 5.0),
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      'Date',
-                                      overflow: TextOverflow.ellipsis,
-                                    ))),
-                            GridColumn(
-                                columnName: 'class',
-                                label: Container(
-                                    padding: EdgeInsets.symmetric(horizontal: 10.0),
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      'Class',
-                                      overflow: TextOverflow.ellipsis,
-                                    ))),
-                            GridColumn(
-                                columnName: 'division',
-                                label: Container(
-                                    padding: EdgeInsets.symmetric(horizontal: 10.0),
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      'Division',
-                                      overflow: TextOverflow.ellipsis,
-                                    ))),
-                            GridColumn(
-                                columnName: 'boys',
-                                label: Container(
-                                    padding: EdgeInsets.symmetric(horizontal: 10.0),
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      'Boys',
-                                      overflow: TextOverflow.ellipsis,
-                                    ))),
-                            GridColumn(
-                                columnName: 'girls',
-                                label: Container(
-                                    padding: EdgeInsets.symmetric(horizontal: 10.0),
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      'Girls',
-                                      overflow: TextOverflow.ellipsis,
-                                    ))),
-                          ],
+                            source: entryDataSource,
+                            columnWidthMode: ColumnWidthMode.fill,
+                            // columnWidthCalculationRange: ColumnWidthCalculationRange.visibleRows,
+                            columns: [
+                              GridColumn(
+                                  columnName: 'date',
+                                  label: Container(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 5.0),
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        'Date',
+                                        overflow: TextOverflow.ellipsis,
+                                      ))),
+                              GridColumn(
+                                  columnName: 'class',
+                                  label: Container(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 10.0),
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        'Class',
+                                        overflow: TextOverflow.ellipsis,
+                                      ))),
+                              GridColumn(
+                                  columnName: 'division',
+                                  label: Container(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 10.0),
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        'Division',
+                                        overflow: TextOverflow.ellipsis,
+                                      ))),
+                              GridColumn(
+                                  columnName: 'boys',
+                                  label: Container(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 10.0),
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        'Boys',
+                                        overflow: TextOverflow.ellipsis,
+                                      ))),
+                              GridColumn(
+                                  columnName: 'girls',
+                                  label: Container(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 10.0),
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        'Girls',
+                                        overflow: TextOverflow.ellipsis,
+                                      ))),
+                            ],
                             gridLinesVisibility: GridLinesVisibility.both,
-                            headerGridLinesVisibility: GridLinesVisibility.both
-                        ),
+                            headerGridLinesVisibility:
+                                GridLinesVisibility.both),
                       ),
                     ),
                   );
@@ -157,19 +166,21 @@ class EntryReportState extends State<EntryReport> {
     );
   }
 }
+
 class EntryDataSource extends DataGridSource {
   EntryDataSource({required List<DailyEntryModel> entries}) {
     dataGridRows = entries
         .map<DataGridRow>((dataGridRow) => DataGridRow(cells: [
-      DataGridCell<String>(columnName: 'date', value: dataGridRow.date),
-      DataGridCell<String>(columnName: 'class', value: dataGridRow.className),
-      DataGridCell<String>(
-          columnName: 'division', value: dataGridRow.division),
-      DataGridCell<int>(
-          columnName: 'boys', value: dataGridRow.boysCount),
-      DataGridCell<int>(
-          columnName: 'girls', value: dataGridRow.girlsCount),
-    ]))
+              // DataGridCell<String>(columnName: 'date', value: dataGridRow.date.),
+              DataGridCell<String>(
+                  columnName: 'class', value: dataGridRow.className),
+              DataGridCell<String>(
+                  columnName: 'division', value: dataGridRow.division),
+              DataGridCell<int>(
+                  columnName: 'boys', value: dataGridRow.boysCount),
+              DataGridCell<int>(
+                  columnName: 'girls', value: dataGridRow.girlsCount),
+            ]))
         .toList();
   }
 
@@ -182,13 +193,13 @@ class EntryDataSource extends DataGridSource {
   DataGridRowAdapter? buildRow(DataGridRow row) {
     return DataGridRowAdapter(
         cells: row.getCells().map<Widget>((dataGridCell) {
-          return Container(
-              alignment : Alignment.center,
-              padding: EdgeInsets.symmetric(horizontal: 2.0),
-              child: Text(
-                dataGridCell.value.toString(),
-                overflow: TextOverflow.ellipsis,
-              ));
-        }).toList());
+      return Container(
+          alignment: Alignment.center,
+          padding: EdgeInsets.symmetric(horizontal: 2.0),
+          child: Text(
+            dataGridCell.value.toString(),
+            overflow: TextOverflow.ellipsis,
+          ));
+    }).toList());
   }
 }

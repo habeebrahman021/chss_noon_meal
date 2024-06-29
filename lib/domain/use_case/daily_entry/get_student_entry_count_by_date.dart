@@ -24,21 +24,26 @@ class GetStudentEntryCountByDate
       organizationId: organizationId,
     );
 
-    final boysCount = result.map((item) => item.boysCount).reduce(
-          (a, b) => a + b,
-        );
-    final girlsCount = result.map((item) => item.girlsCount).reduce(
-          (a, b) => a + b,
-        );
+    var boysCount = 0;
+    var girlsCount = 0;
+
+    if (result.isNotEmpty) {
+      boysCount = result.map((item) => item.boysCount).reduce(
+            (a, b) => a + b,
+          );
+      girlsCount = result.map((item) => item.girlsCount).reduce(
+            (a, b) => a + b,
+          );
+    }
     return [
       ChartData(
         'Boys',
-        boysCount.toDouble(),
+        boysCount,
         AppColors.incentiveColor,
       ),
       ChartData(
         'Girls',
-        girlsCount.toDouble(),
+        girlsCount,
         AppColors.commitmentstatusbg,
       ),
     ];
