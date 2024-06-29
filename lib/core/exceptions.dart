@@ -15,3 +15,12 @@ class FailureException implements Exception {
   @override
   String toString() => message;
 }
+
+class NotFoundException implements Exception {
+  NotFoundException(this.message);
+
+  final String message;
+
+  @override
+  String toString() => message;
+}

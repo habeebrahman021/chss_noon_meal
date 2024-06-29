@@ -8,7 +8,8 @@ part of 'daily_entry_model.dart';
 
 DailyEntryModel _$DailyEntryModelFromJson(Map<String, dynamic> json) =>
     DailyEntryModel(
-      date: json['date'] as String?,
+      id: json['id'] as String?,
+      date: json['date'] as Timestamp?,
       boysCount: (json['boys_count'] as num?)?.toInt(),
       girlsCount: (json['girls_count'] as num?)?.toInt(),
       classId: json['class_id'] as String?,
@@ -19,6 +20,7 @@ DailyEntryModel _$DailyEntryModelFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$DailyEntryModelToJson(DailyEntryModel instance) =>
     <String, dynamic>{
+      'id': instance.id,
       'date': instance.date,
       'boys_count': instance.boysCount,
       'girls_count': instance.girlsCount,

@@ -101,4 +101,13 @@ class AppColors {
   static const Color rejectdark = Color(0xffED273F);
   static const Color app_color = Color(0xff285da3);
   static const Color headerColor= Color(0xff78398d);
+
+  static Color grey400 = const Color(0xFF1C1E26); // Grey400
+  static Color grey350 = const Color(0xFF383940); // Grey350
+  static Color grey300 = const Color(0xFF767B85); // Grey300
+  static Color grey250 = const Color(0xFFA5A5A6); // Grey250
+  static Color grey50 = const Color(0xFFF3F5F9);
+  static Color grey100 = const Color(0xFFEDEDED);
+  static Color grey150 = const Color(0xFFE3E3E3);
+  static Color grey200 = const Color(0xFFCCCCCC);
 }

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 
 extension DateTimeExtension on DateTime {
   Timestamp get timestamp {
@@ -15,5 +16,11 @@ extension DateTimeExtension on DateTime {
     return Timestamp.fromDate(
       DateTime(year, month, day, 23, 59, 59),
     );
+  }
+
+  // Convert the DateTime to a String in the specified format
+  String toStringFormatted(String format) {
+    final formatter = DateFormat(format);
+    return formatter.format(this);
   }
 }

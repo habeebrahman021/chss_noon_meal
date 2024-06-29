@@ -7,8 +7,10 @@ class DailyEntry extends Equatable {
     required this.division,
     required this.boysCount,
     required this.girlsCount,
+    this.id = '',
   });
 
+  final String id;
   final String classId;
   final String className;
   final String division;
@@ -17,6 +19,7 @@ class DailyEntry extends Equatable {
 
   @override
   List<Object?> get props => [
+        id,
         classId,
         className,
         division,

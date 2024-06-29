@@ -24,6 +24,19 @@ abstract class DailyEntryDataSource {
     required String division,
     required String organizationId,
   });
+
+  Future<List<DailyEntryModel>> getDailyEntryByDateAndClass({
+    required DateTime date,
+    required String classId,
+    required String division,
+    required String organizationId,
+  });
+
+  Future<String> updateDailyEntries({
+    required String id,
+    required int boysCount,
+    required int girlsCount,
+  });
 }
 
 class DefaultDailyEntryDataSource implements DailyEntryDataSource {
@@ -33,21 +46,32 @@ class DefaultDailyEntryDataSource implements DailyEntryDataSource {
 
   final FirebaseFirestore firestore;
 
+  static const collectionName = 'daily_student_entries';
+  static const dateFieldName = 'date';
+  static const boysCountFieldName = 'boys_count';
+  static const girlsCountFieldName = 'girls_count';
+  static const classIdFieldName = 'class_id';
+  static const classNameFieldName = 'class_name';
+  static const divisionFieldName = 'division';
+  static const organizationIdFieldName = 'organization_id';
+
   @override
   Future<List<DailyEntryModel>> getDailyEntriesByDate({
     required DateTime date,
     required String organizationId,
   }) async {
     final result = await firestore
-        .collection('daily_daily_entries')
-        .where('date', isGreaterThanOrEqualTo: date.startOfDay)
-        .where('date', isLessThanOrEqualTo: date.endOfDay)
-        .where('organization_id', isEqualTo: organizationId)
+        .collection(collectionName)
+        .where(dateFieldName, isGreaterThanOrEqualTo: date.startOfDay)
+        .where(dateFieldName, isLessThanOrEqualTo: date.endOfDay)
+        .where(organizationIdFieldName, isEqualTo: organizationId)
         .get();
 
-    return result.docs
-        .map((doc) => DailyEntryModel.fromJson(doc.data()))
-        .toList();
+    return result.docs.map((doc) {
+      final data = doc.data();
+      data['id'] = doc.id;
+      return DailyEntryModel.fromJson(data);
+    }).toList();
   }
 
   @override
@@ -57,15 +81,17 @@ class DefaultDailyEntryDataSource implements DailyEntryDataSource {
     required String organizationId,
   }) async {
     final result = await firestore
-        .collection('daily_daily_entries')
-        .where('date', isGreaterThanOrEqualTo: fromDate)
-        .where('date', isLessThanOrEqualTo: toDate)
-        .where('organization_id', isEqualTo: organizationId)
+        .collection(collectionName)
+        .where(dateFieldName, isGreaterThanOrEqualTo: fromDate)
+        .where(dateFieldName, isLessThanOrEqualTo: toDate)
+        .where(organizationIdFieldName, isEqualTo: organizationId)
         .get();
 
-    return result.docs
-        .map((doc) => DailyEntryModel.fromJson(doc.data()))
-        .toList();
+    return result.docs.map((doc) {
+      final data = doc.data();
+      data['id'] = doc.id;
+      return DailyEntryModel.fromJson(data);
+    }).toList();
   }
 
   @override
@@ -78,17 +104,55 @@ class DefaultDailyEntryDataSource implements DailyEntryDataSource {
     required String division,
     required String organizationId,
   }) async {
-    final result = await firestore.collection('daily_daily_entries').add({
-      'date': date,
-      'boys_count': boysCount,
-      'girls_count': girlsCount,
-      'class_id': classId,
-      'class_name': className,
-      'division': division,
-      'organization_id': organizationId,
+    final result = await firestore.collection(collectionName).add({
+      dateFieldName: date,
+      boysCountFieldName: boysCount,
+      girlsCountFieldName: girlsCount,
+      classIdFieldName: classId,
+      classNameFieldName: className,
+      divisionFieldName: division,
+      organizationIdFieldName: organizationId,
     }).onError((error, stackTrace) {
       throw FailureException('Error saving daily entry: $error');
     });
     return result.id;
+  }
+
+  @override
+  Future<List<DailyEntryModel>> getDailyEntryByDateAndClass({
+    required DateTime date,
+    required String classId,
+    required String division,
+    required String organizationId,
+  }) async {
+    final result = await firestore
+        .collection(collectionName)
+        .where(dateFieldName, isGreaterThanOrEqualTo: date.startOfDay)
+        .where(dateFieldName, isLessThanOrEqualTo: date.endOfDay)
+        .where(classIdFieldName, isEqualTo: classId)
+        .where(divisionFieldName, isEqualTo: division)
+        .where(organizationIdFieldName, isEqualTo: organizationId)
+        .get();
+
+    return result.docs.map((doc) {
+      final data = doc.data();
+      data['id'] = doc.id;
+      return DailyEntryModel.fromJson(data);
+    }).toList();
+  }
+
+  @override
+  Future<String> updateDailyEntries({
+    required String id,
+    required int boysCount,
+    required int girlsCount,
+  }) async {
+    await firestore.collection(collectionName).doc(id).update({
+      boysCountFieldName: boysCount,
+      girlsCountFieldName: girlsCount,
+    }).onError((error, stackTrace) {
+      throw FailureException('Error saving updating entry: $error');
+    });
+    return id;
   }
 }

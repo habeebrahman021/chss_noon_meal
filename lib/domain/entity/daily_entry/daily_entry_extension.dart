@@ -4,6 +4,7 @@ import 'package:chss_noon_meal/domain/entity/daily_entry/daily_entry.dart';
 extension DailyEntryModelExtension on DailyEntryModel {
   DailyEntry toDomain() {
     return DailyEntry(
+      id: id ?? '',
       classId: classId ?? '',
       className: className ?? '',
       division: division ?? '',

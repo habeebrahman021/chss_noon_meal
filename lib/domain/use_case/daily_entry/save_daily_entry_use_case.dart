@@ -1,3 +1,4 @@
+import 'package:chss_noon_meal/data/data_source/local/preference/preference_data_source.dart';
 import 'package:chss_noon_meal/data/repository/daily_entry_repository.dart';
 import 'package:chss_noon_meal/domain/use_case/use_case.dart';
 import 'package:equatable/equatable.dart';
@@ -6,12 +7,15 @@ class SaveDailyEntryUseCase
     extends UseCase<String, SaveDailyEntryUseCaseParams> {
   SaveDailyEntryUseCase({
     required this.dailyEntryRepository,
+    required this.preferenceDataSource,
   });
 
   final DailyEntryRepository dailyEntryRepository;
+  final PreferenceDataSource preferenceDataSource;
 
   @override
-  Future<String> execute(SaveDailyEntryUseCaseParams params) {
+  Future<String> execute(SaveDailyEntryUseCaseParams params) async {
+    final orgId = await preferenceDataSource.getOrganizationId();
     return dailyEntryRepository.saveDailyEntries(
       date: params.date,
       boysCount: params.boysCount,
@@ -19,7 +23,7 @@ class SaveDailyEntryUseCase
       classId: params.classId,
       className: params.className,
       division: params.division,
-      organizationId: params.organizationId,
+      organizationId: orgId,
     );
   }
 }
@@ -32,7 +36,6 @@ class SaveDailyEntryUseCaseParams extends Equatable {
     required this.classId,
     required this.className,
     required this.division,
-    required this.organizationId,
   });
 
   final DateTime date;
@@ -41,7 +44,6 @@ class SaveDailyEntryUseCaseParams extends Equatable {
   final String classId;
   final String className;
   final String division;
-  final String organizationId;
 
   @override
   List<Object?> get props => [
@@ -51,6 +53,5 @@ class SaveDailyEntryUseCaseParams extends Equatable {
         classId,
         className,
         division,
-        organizationId,
       ];
 }

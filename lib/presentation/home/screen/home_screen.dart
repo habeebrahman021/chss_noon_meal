@@ -2,7 +2,7 @@ import 'package:chss_noon_meal/core/di/injector.dart';
 import 'package:chss_noon_meal/core/enum/status.dart';
 import 'package:chss_noon_meal/presentation/home/bloc/home_bloc.dart';
 import 'package:chss_noon_meal/presentation/login/screen/login_screen.dart';
-import 'package:chss_noon_meal/presentation/student_entry/screen/student_entry.dart';
+import 'package:chss_noon_meal/presentation/student_entry/screen/daily_entry_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
@@ -299,7 +299,7 @@ class HomeScreen extends StatelessWidget {
 
               onPressed: () {
                 // Action to perform when the button is pressed
-                GoRouter.of(context).pushNamed(StudentEntry.route);
+                GoRouter.of(context).pushNamed(DailyEntryScreen.route);
                 print('FAB pressed');
               },
               child: Icon(Icons.add,color: AppColors.white,),
