@@ -12,16 +12,16 @@ import 'package:gap/gap.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
-class EntryReport extends StatefulWidget {
-  const EntryReport({super.key});
+class ReportScreen extends StatefulWidget {
+  const ReportScreen({super.key});
 
-  static const String route = '/entry';
+  static const String route = '/report-screen';
 
   @override
-  State<EntryReport> createState() => EntryReportState();
+  State<ReportScreen> createState() => ReportScreenState();
 }
 
-class EntryReportState extends State<EntryReport> {
+class ReportScreenState extends State<ReportScreen> {
   late DailyEntryDataGridDataSource dailyEntryDataSource;
 
   List<DailyEntry> entries = <DailyEntry>[];
@@ -43,7 +43,19 @@ class EntryReportState extends State<EntryReport> {
         appBar: AppBar(
           backgroundColor: AppColors.app_color,
           title: const Text('Report'),
-          actions: [IconButton(onPressed: () {}, icon: Icon(Icons.save))],
+          actions: [
+            BlocBuilder<ReportsBloc, ReportsState>(
+              builder: (context, state) {
+                return Visibility(
+                  visible: state.userRole == 1 || state.userRole == 2,
+                  child: IconButton(
+                    onPressed: () {},
+                    icon: const Icon(Icons.save),
+                  ),
+                );
+              },
+            ),
+          ],
         ),
         body: BlocListener<ReportsBloc, ReportsState>(
           listener: (context, state) {},

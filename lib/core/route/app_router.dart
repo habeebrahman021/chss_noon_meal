@@ -4,7 +4,7 @@ import 'package:chss_noon_meal/domain/use_case/preference/get_saved_user_id_use_
 import 'package:chss_noon_meal/domain/use_case/use_case.dart';
 import 'package:chss_noon_meal/presentation/home/screen/home_screen.dart';
 import 'package:chss_noon_meal/presentation/login/screen/login_screen.dart';
-import 'package:chss_noon_meal/presentation/reports/screen/entry_report.dart';
+import 'package:chss_noon_meal/presentation/reports/screen/report_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -33,9 +33,9 @@ class AppRouter {
         builder: (context, state) =>  DailyEntryScreen(),
       ),
       GoRoute(
-        path: EntryReport.route,
-        name: EntryReport.route,
-        builder: (context, state) =>  EntryReport(),
+        path: ReportScreen.route,
+        name: ReportScreen.route,
+        builder: (context, state) =>  ReportScreen(),
       ),
     ],
     redirect: (context, state) async {

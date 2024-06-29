@@ -12,7 +12,7 @@ import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-import '../../reports/screen/entry_report.dart';
+import '../../reports/screen/report_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -214,7 +214,7 @@ class HomeScreen extends StatelessWidget {
                           const Gap(40),
                           GestureDetector(
                             onTap: () {
-                              GoRouter.of(context).pushNamed(EntryReport.route);
+                              GoRouter.of(context).pushNamed(ReportScreen.route);
                             },
                             child: Container(
                               width: double.infinity,

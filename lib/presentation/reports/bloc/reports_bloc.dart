@@ -8,6 +8,7 @@ import 'package:chss_noon_meal/domain/use_case/config/get_class_list_use_case.da
 import 'package:chss_noon_meal/domain/use_case/daily_entry/get_student_entries_by_date_use_case.dart';
 import 'package:chss_noon_meal/domain/use_case/daily_entry/update_class_list_with_daily_entries_use_case.dart';
 import 'package:chss_noon_meal/domain/use_case/preference/get_saved_organization_id_use_case.dart';
+import 'package:chss_noon_meal/domain/use_case/preference/get_saved_user_role_use_case.dart';
 import 'package:chss_noon_meal/domain/use_case/use_case.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,16 +19,19 @@ part 'reports_state.dart';
 
 class ReportsBloc extends Bloc<ReportsEvent, ReportsState> {
   ReportsBloc({
+    required this.getSavedUserRoleUseCase,
     required this.getClassListUseCase,
     required this.getDailyEntriesByDateUseCase,
     required this.getSavedOrganizationIdUseCase,
     required this.updateClassListWithDailyEntriesUseCase,
   }) : super(ReportsState()) {
     on<ReportsEvent>((event, emit) {});
+    on<ReportsEventInitial>(_onReportsEventInitial);
     on<GetDailyEntriesByDate>(_onGetDailyEntriesByDate);
     on<DateSelected>(_onDateSelected);
   }
 
+  final GetSavedUserRoleUseCase getSavedUserRoleUseCase;
   final GetClassListUseCase getClassListUseCase;
   final GetDailyEntriesByDateUseCase getDailyEntriesByDateUseCase;
   final GetSavedOrganizationIdUseCase getSavedOrganizationIdUseCase;
@@ -87,5 +91,16 @@ class ReportsBloc extends Bloc<ReportsEvent, ReportsState> {
   ) async {
     emit(state.copyWith(date: event.date));
     add(GetDailyEntriesByDate());
+  }
+
+  Future<FutureOr<void>> _onReportsEventInitial(
+    ReportsEventInitial event,
+    Emitter<ReportsState> emit,
+  ) async {
+    final result = await getSavedUserRoleUseCase(NoParams());
+
+    if (result.isRight) {
+      emit(state.copyWith(userRole: result.right));
+    }
   }
 }

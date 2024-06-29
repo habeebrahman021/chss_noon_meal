@@ -18,6 +18,7 @@ import 'package:chss_noon_meal/domain/use_case/daily_entry/update_daily_entry_us
 import 'package:chss_noon_meal/domain/use_case/preference/get_saved_full_name_use_case.dart';
 import 'package:chss_noon_meal/domain/use_case/preference/get_saved_organization_id_use_case.dart';
 import 'package:chss_noon_meal/domain/use_case/preference/get_saved_user_id_use_case.dart';
+import 'package:chss_noon_meal/domain/use_case/preference/get_saved_user_role_use_case.dart';
 import 'package:chss_noon_meal/presentation/home/bloc/home_bloc.dart';
 import 'package:chss_noon_meal/presentation/login/bloc/login_bloc.dart';
 import 'package:chss_noon_meal/presentation/reports/bloc/reports_bloc.dart';
@@ -174,6 +175,11 @@ Future<void> _registerUseCases() async {
         preferenceDataSource: injector(),
         dailyEntryRepository: injector(),
       ),
+    )
+    ..registerLazySingleton<GetSavedUserRoleUseCase>(
+      () => GetSavedUserRoleUseCase(
+        preferenceDataSource: injector(),
+      ),
     );
 }
 
@@ -205,10 +211,13 @@ Future<void> _registerBlocs() async {
     )
     ..registerFactory<ReportsBloc>(
       () => ReportsBloc(
+        getSavedUserRoleUseCase: injector(),
         getClassListUseCase: injector(),
         getDailyEntriesByDateUseCase: injector(),
         updateClassListWithDailyEntriesUseCase: injector(),
         getSavedOrganizationIdUseCase: injector(),
-      )..add(GetDailyEntriesByDate()),
+      )
+        ..add(ReportsEventInitial())
+        ..add(GetDailyEntriesByDate()),
     );
 }
