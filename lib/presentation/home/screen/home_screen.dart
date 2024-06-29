@@ -37,7 +37,32 @@ class HomeScreen extends StatelessWidget {
                   builder: (context, state) {
                     return IconButton(
                       onPressed: () {
-                        context.read<HomeBloc>().add(LogoutButtonPressed());
+                        final bloc = context.read<HomeBloc>();
+                        showDialog<void>(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              content: const Text(
+                                'Are you sure you want to logout?',
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Text('Cancel'),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    bloc.add(LogoutButtonPressed());
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Text('Logout'),
+                                ),
+                              ],
+                            );
+                          },
+                        );
                       },
                       icon: const Icon(
                         Icons.exit_to_app,
@@ -233,7 +258,7 @@ class HomeScreen extends StatelessWidget {
                                         ),
                                         Gap(3),
                                         Text(
-                                          'View detailed report of students receiving noon meals in each class and division',
+                                          'View detailed report of students receiving noon meals in each class.',
                                           style: TextStyle(
                                             fontSize: 13,
                                             color: AppColors.black,

@@ -24,10 +24,12 @@ class GetStudentEntryCountByDate
       organizationId: organizationId,
     );
 
-    final boysCount =
-        result.map((item) => item.boysCount).reduce((a, b) => a + b);
-    final girlsCount =
-        result.map((item) => item.girlsCount).reduce((a, b) => a + b);
+    final boysCount = result.map((item) => item.boysCount).reduce(
+          (a, b) => a + b,
+        );
+    final girlsCount = result.map((item) => item.girlsCount).reduce(
+          (a, b) => a + b,
+        );
     return [
       ChartData(
         'Boys',
