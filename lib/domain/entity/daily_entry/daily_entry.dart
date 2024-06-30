@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 class DailyEntry extends Equatable {
   const DailyEntry({
     required this.classId,
+    required this.date,
     required this.className,
     required this.division,
     required this.boysCount,
@@ -11,6 +12,7 @@ class DailyEntry extends Equatable {
   });
 
   final String id;
+  final DateTime? date;
   final String classId;
   final String className;
   final String division;
@@ -20,6 +22,7 @@ class DailyEntry extends Equatable {
   @override
   List<Object?> get props => [
         id,
+        date,
         classId,
         className,
         division,

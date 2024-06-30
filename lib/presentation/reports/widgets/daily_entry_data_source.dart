@@ -1,3 +1,4 @@
+import 'package:chss_noon_meal/core/extension/date_time_extension.dart';
 import 'package:chss_noon_meal/core/theme/app_colors.dart';
 import 'package:chss_noon_meal/domain/entity/daily_entry/daily_entry.dart';
 import 'package:flutter/material.dart';
@@ -6,11 +7,18 @@ import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 class DailyEntryDataGridDataSource extends DataGridSource {
   DailyEntryDataGridDataSource({
     required List<DailyEntry> dailyEntries,
+    required int userRole,
   }) {
     _dailyEntries = dailyEntries
         .map<DataGridRow>(
           (e) => DataGridRow(
             cells: [
+              if (userRole == 1 || userRole == 2) ...[
+                DataGridCell<String>(
+                  columnName: 'date',
+                  value: e.date?.toStringFormatted('dd-MM-yyyy') ?? '-',
+                ),
+              ],
               DataGridCell<String>(columnName: 'class', value: e.className),
               DataGridCell<String>(columnName: 'division', value: e.division),
               DataGridCell<int>(columnName: 'boys_count', value: e.boysCount),

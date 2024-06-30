@@ -27,11 +27,15 @@ class ReportScreenState extends State<ReportScreen> {
   List<DailyEntry> entries = <DailyEntry>[];
 
   late TextEditingController _dateController;
+  late TextEditingController _startDateController;
+  late TextEditingController _endDateController;
 
   @override
   void initState() {
     super.initState();
     _dateController = TextEditingController();
+    _startDateController = TextEditingController();
+    _endDateController = TextEditingController();
   }
 
   @override
@@ -64,73 +68,211 @@ class ReportScreenState extends State<ReportScreen> {
               if (_dateController.text != state.formattedDate) {
                 _dateController.text = state.formattedDate;
               }
+
+              if (_startDateController.text != state.formattedStartDate) {
+                _startDateController.text = state.formattedStartDate;
+              }
+
+              if (_endDateController.text != state.formattedEndDate) {
+                _endDateController.text = state.formattedEndDate;
+              }
               entries = state.dailyEntryList;
               dailyEntryDataSource = DailyEntryDataGridDataSource(
                 dailyEntries: entries,
+                userRole: state.userRole,
               );
 
+              final isAdmin = state.userRole == 1 || state.userRole == 2;
               return SafeArea(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Gap(24),
-                    const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
-                      child: Text(
-                        'Date *',
-                        style: TextStyle(
-                          fontSize: 13,
-                          color: AppColors.darkGrey,
-                          fontWeight: FontWeight.bold,
+                    if (isAdmin) ...[
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 20,
+                          horizontal: 20,
                         ),
-                        textAlign: TextAlign.start,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: TextFormField(
-                        controller: _dateController,
-                        readOnly: true,
-                        decoration: const InputDecoration(
-                          hintText: 'Date',
-                          suffixIcon: Icon(
-                            Icons.calendar_month,
-                          ),
-                          border: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color: AppColors.textColor,
-                            ), // Default bottom border
-                          ),
-                          enabledBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color: AppColors.textColor,
-                            ), // Bottom border when enabled
-                          ),
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color: AppColors.textColor,
-                            ), // Bottom border when focused
-                          ),
-                        ),
-                        onTap: () async {
-                          await showDatePicker(
-                            context: context,
-                            initialDate: state.date,
-                            firstDate: DateTime(2000),
-                            lastDate: DateTime(2025),
-                          ).then((value) {
-                            if (value != null) {
-                              context
-                                  .read<ReportsBloc>()
-                                  .add(DateSelected(date: value));
-                            }
-                          });
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Text(
+                                    'Start Date *',
+                                    style: TextStyle(
+                                      fontSize: 13,
+                                      color: AppColors.darkGrey,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    textAlign: TextAlign.start,
+                                  ),
+                                  TextFormField(
+                                    controller: _startDateController,
+                                    readOnly: true,
+                                    decoration: const InputDecoration(
+                                      hintText: 'Date',
+                                      suffixIcon: Icon(
+                                        Icons.calendar_month,
+                                      ),
+                                      border: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: AppColors.textColor,
+                                        ), // Default bottom border
+                                      ),
+                                      enabledBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: AppColors.textColor,
+                                        ), // Bottom border when enabled
+                                      ),
+                                      focusedBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: AppColors.textColor,
+                                        ), // Bottom border when focused
+                                      ),
+                                    ),
+                                    onTap: () async {
+                                      await showDatePicker(
+                                        context: context,
+                                        initialDate: state.startDate,
+                                        firstDate: DateTime(2000),
+                                        lastDate: DateTime(2025),
+                                      ).then((value) {
+                                        if (value != null) {
+                                          context.read<ReportsBloc>().add(
+                                                StartDateSelected(date: value),
+                                              );
+                                        }
+                                      });
 
-                          // _showDatePicker;
-                        },
+                                      // _showDatePicker;
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const Gap(20),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Text(
+                                    'End Date *',
+                                    style: TextStyle(
+                                      fontSize: 13,
+                                      color: AppColors.darkGrey,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    textAlign: TextAlign.start,
+                                  ),
+                                  TextFormField(
+                                    controller: _endDateController,
+                                    readOnly: true,
+                                    decoration: const InputDecoration(
+                                      hintText: 'Date',
+                                      suffixIcon: Icon(
+                                        Icons.calendar_month,
+                                      ),
+                                      border: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: AppColors.textColor,
+                                        ), // Default bottom border
+                                      ),
+                                      enabledBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: AppColors.textColor,
+                                        ), // Bottom border when enabled
+                                      ),
+                                      focusedBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: AppColors.textColor,
+                                        ), // Bottom border when focused
+                                      ),
+                                    ),
+                                    onTap: () async {
+                                      await showDatePicker(
+                                        context: context,
+                                        initialDate: state.endDate,
+                                        firstDate: DateTime(2000),
+                                        lastDate: DateTime(2025),
+                                      ).then((value) {
+                                        if (value != null) {
+                                          context.read<ReportsBloc>().add(
+                                                EndDateSelected(date: value),
+                                              );
+                                        }
+                                      });
+
+                                      // _showDatePicker;
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    const Gap(24),
+                    ] else ...[
+                      const Gap(20),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        child: Text(
+                          'Date *',
+                          style: TextStyle(
+                            fontSize: 13,
+                            color: AppColors.darkGrey,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.start,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: TextFormField(
+                          controller: _dateController,
+                          readOnly: true,
+                          decoration: const InputDecoration(
+                            hintText: 'Date',
+                            suffixIcon: Icon(
+                              Icons.calendar_month,
+                            ),
+                            border: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                color: AppColors.textColor,
+                              ), // Default bottom border
+                            ),
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                color: AppColors.textColor,
+                              ), // Bottom border when enabled
+                            ),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                color: AppColors.textColor,
+                              ), // Bottom border when focused
+                            ),
+                          ),
+                          onTap: () async {
+                            await showDatePicker(
+                              context: context,
+                              initialDate: state.date,
+                              firstDate: DateTime(2000),
+                              lastDate: DateTime(2025),
+                            ).then((value) {
+                              if (value != null) {
+                                context
+                                    .read<ReportsBloc>()
+                                    .add(DateSelected(date: value));
+                              }
+                            });
+
+                            // _showDatePicker;
+                          },
+                        ),
+                      ),
+                      const Gap(20),
+                    ],
                     Expanded(
                       child: state.status.isLoading
                           ? const Center(child: CircularProgressIndicator())
@@ -143,8 +285,29 @@ class ReportScreenState extends State<ReportScreen> {
                                 headerRowHeight: 45,
                                 rowHeight: 45,
                                 source: dailyEntryDataSource,
-                                columnWidthMode: ColumnWidthMode.fill,
+                                columnWidthMode: isAdmin
+                                    ? ColumnWidthMode.auto
+                                    : ColumnWidthMode.fill,
                                 columns: [
+                                  if (state.userRole == 1 ||
+                                      state.userRole == 2) ...[
+                                    GridColumn(
+                                      columnName: 'date',
+                                      label: Container(
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 10,
+                                        ),
+                                        alignment: Alignment.centerLeft,
+                                        child: const Text(
+                                          'Date',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                   GridColumn(
                                     columnName: 'class',
                                     label: Container(
@@ -216,12 +379,12 @@ class ReportScreenState extends State<ReportScreen> {
                                         GridTableSummaryRowPosition.bottom,
                                     showSummaryInRow: false,
                                     columns: [
-                                      GridSummaryColumn(
+                                      const GridSummaryColumn(
                                         name: 'Boys',
                                         columnName: 'boys_count',
                                         summaryType: GridSummaryType.sum,
                                       ),
-                                      GridSummaryColumn(
+                                      const GridSummaryColumn(
                                         name: 'Girls',
                                         columnName: 'girls_count',
                                         summaryType: GridSummaryType.sum,

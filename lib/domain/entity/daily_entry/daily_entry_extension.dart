@@ -5,6 +5,7 @@ extension DailyEntryModelExtension on DailyEntryModel {
   DailyEntry toDomain() {
     return DailyEntry(
       id: id ?? '',
+      date: date?.toDate(),
       classId: classId ?? '',
       className: className ?? '',
       division: division ?? '',

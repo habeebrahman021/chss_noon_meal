@@ -23,4 +23,16 @@ extension DateTimeExtension on DateTime {
     final formatter = DateFormat(format);
     return formatter.format(this);
   }
+
+  DateTime get firstDayOfMonth {
+    return DateTime(year, month);
+  }
+
+  DateTime get lastDayOfMonth {
+    final firstDayOfNextMonth =
+        (month < 12) ? DateTime(year, month + 1) : DateTime(year + 1);
+    return firstDayOfNextMonth.subtract(
+      const Duration(days: 1),
+    );
+  }
 }

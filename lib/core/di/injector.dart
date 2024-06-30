@@ -10,6 +10,7 @@ import 'package:chss_noon_meal/domain/use_case/auth/logout_use_case.dart';
 import 'package:chss_noon_meal/domain/use_case/auth/save_user_details_use_case.dart';
 import 'package:chss_noon_meal/domain/use_case/config/get_class_list_use_case.dart';
 import 'package:chss_noon_meal/domain/use_case/daily_entry/check_entry_exists_with_date_and_class_use_case.dart';
+import 'package:chss_noon_meal/domain/use_case/daily_entry/get_student_entries_by_date_range_use_case.dart';
 import 'package:chss_noon_meal/domain/use_case/daily_entry/get_student_entries_by_date_use_case.dart';
 import 'package:chss_noon_meal/domain/use_case/daily_entry/get_student_entry_count_by_date.dart';
 import 'package:chss_noon_meal/domain/use_case/daily_entry/save_daily_entry_use_case.dart';
@@ -134,6 +135,11 @@ Future<void> _registerUseCases() async {
         repository: injector(),
       ),
     )
+    ..registerLazySingleton<GetDailyEntriesByDateRangeUseCase>(
+      () => GetDailyEntriesByDateRangeUseCase(
+        repository: injector(),
+      ),
+    )
     ..registerLazySingleton<SaveDailyEntryUseCase>(
       () => SaveDailyEntryUseCase(
         preferenceDataSource: injector(),
@@ -214,6 +220,7 @@ Future<void> _registerBlocs() async {
         getSavedUserRoleUseCase: injector(),
         getClassListUseCase: injector(),
         getDailyEntriesByDateUseCase: injector(),
+        getDailyEntriesByDateRangeUseCase: injector(),
         updateClassListWithDailyEntriesUseCase: injector(),
         getSavedOrganizationIdUseCase: injector(),
       )

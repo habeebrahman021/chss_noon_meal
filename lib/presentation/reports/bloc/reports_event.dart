@@ -20,3 +20,21 @@ class DateSelected extends ReportsEvent {
   @override
   List<Object?> get props => [date];
 }
+
+class StartDateSelected extends ReportsEvent {
+  StartDateSelected({required this.date});
+
+  final DateTime date;
+
+  @override
+  List<Object?> get props => [date];
+}
+
+class EndDateSelected extends ReportsEvent {
+  EndDateSelected({required this.date});
+
+  final DateTime date;
+
+  @override
+  List<Object?> get props => [date];
+}

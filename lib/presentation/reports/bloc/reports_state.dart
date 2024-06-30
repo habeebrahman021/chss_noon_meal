@@ -4,12 +4,18 @@ class ReportsState extends Equatable {
   ReportsState({
     this.userRole = 3,
     DateTime? date,
+    DateTime? startDate,
+    DateTime? endDate,
     this.status = Status.initial,
     this.dailyEntryList = const [],
-  }) : date = date ?? DateTime.now();
+  })  : date = date ?? DateTime.now(),
+        startDate = startDate ?? DateTime.now().firstDayOfMonth,
+        endDate = endDate ?? DateTime.now();
 
   final int userRole; // 1 => Super Admin 2 => Organization Admin 3 => Teacher
   final DateTime date;
+  final DateTime startDate;
+  final DateTime endDate;
   final List<DailyEntry> dailyEntryList;
   final Status status;
 
@@ -17,23 +23,37 @@ class ReportsState extends Equatable {
     return date.toStringFormatted('dd MMM yyyy');
   }
 
+  String get formattedStartDate {
+    return startDate.toStringFormatted('dd MMM yyyy');
+  }
+
+  String get formattedEndDate {
+    return endDate.toStringFormatted('dd MMM yyyy');
+  }
+
   @override
   List<Object?> get props => [
         userRole,
         dailyEntryList,
         date,
+        startDate,
+        endDate,
         status,
       ];
 
   ReportsState copyWith({
     int? userRole,
     DateTime? date,
+    DateTime? startDate,
+    DateTime? endDate,
     List<DailyEntry>? dailyEntryList,
     Status? status,
   }) {
     return ReportsState(
       userRole: userRole ?? this.userRole,
       date: date ?? this.date,
+      startDate: startDate ?? this.startDate,
+      endDate: endDate ?? this.endDate,
       dailyEntryList: dailyEntryList ?? this.dailyEntryList,
       status: status ?? this.status,
     );
