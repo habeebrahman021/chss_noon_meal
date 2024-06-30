@@ -276,124 +276,132 @@ class ReportScreenState extends State<ReportScreen> {
                     Expanded(
                       child: state.status.isLoading
                           ? const Center(child: CircularProgressIndicator())
-                          : SfDataGridTheme(
-                              data: SfDataGridThemeData(
-                                gridLineColor: AppColors.grey150,
-                                // headerColor: AppColors.app_color,
-                              ),
-                              child: SfDataGrid(
-                                headerRowHeight: 45,
-                                rowHeight: 45,
-                                source: dailyEntryDataSource,
-                                columnWidthMode: isAdmin
-                                    ? ColumnWidthMode.auto
-                                    : ColumnWidthMode.fill,
-                                columns: [
-                                  if (state.userRole == 1 ||
-                                      state.userRole == 2) ...[
+                          : Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: SfDataGridTheme(
+                                data: SfDataGridThemeData(
+                                  gridLineColor: AppColors.grey150,
+                                   headerColor: AppColors.backgroundColor,
+                                ),
+                                child: SfDataGrid(
+                                  headerRowHeight: 45,
+                                  rowHeight: 45,
+                                  source: dailyEntryDataSource,
+                                  columnWidthMode: isAdmin
+                                      ? ColumnWidthMode.auto
+                                      : ColumnWidthMode.fill,
+                                  columns: [
+                                    if (state.userRole == 1 ||
+                                        state.userRole == 2) ...[
+                                      GridColumn(
+                                        columnName: 'date',
+                                        label: Container(
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 10,
+                                          ),
+                                          alignment: Alignment.centerLeft,
+                                          child: const Text(
+                                            'Date',
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              color: AppColors.white
+                                            ),
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                     GridColumn(
-                                      columnName: 'date',
+                                      columnName: 'class',
                                       label: Container(
                                         padding: const EdgeInsets.symmetric(
                                           horizontal: 10,
                                         ),
                                         alignment: Alignment.centerLeft,
                                         child: const Text(
-                                          'Date',
+                                          'Class',
                                           style: TextStyle(
                                             fontWeight: FontWeight.bold,
+                                              color: AppColors.white
+                                          ),
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                    ),
+                                    GridColumn(
+                                      columnName: 'division',
+                                      label: Container(
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 10,
+                                        ),
+                                        alignment: Alignment.centerLeft,
+                                        child: const Text(
+                                          'Division',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                              color: AppColors.white
+                                          ),
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                    ),
+                                    GridColumn(
+                                      columnName: 'boys_count',
+                                      label: Container(
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 10,
+                                        ),
+                                        alignment: Alignment.centerLeft,
+                                        child: const Text(
+                                          'Boys',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                              color: AppColors.white
+                                          ),
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                    ),
+                                    GridColumn(
+                                      columnName: 'girls_count',
+                                      label: Container(
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 10,
+                                        ),
+                                        alignment: Alignment.centerLeft,
+                                        child: const Text(
+                                          'Girls',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                              color: AppColors.white
                                           ),
                                           overflow: TextOverflow.ellipsis,
                                         ),
                                       ),
                                     ),
                                   ],
-                                  GridColumn(
-                                    columnName: 'class',
-                                    label: Container(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 10,
-                                      ),
-                                      alignment: Alignment.centerLeft,
-                                      child: const Text(
-                                        'Class',
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
+                                  tableSummaryRows: [
+                                    GridTableSummaryRow(
+                                      position:
+                                          GridTableSummaryRowPosition.bottom,
+                                      showSummaryInRow: false,
+                                      columns: [
+                                        const GridSummaryColumn(
+                                          name: 'Boys',
+                                          columnName: 'boys_count',
+                                          summaryType: GridSummaryType.sum,
                                         ),
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ),
-                                  ),
-                                  GridColumn(
-                                    columnName: 'division',
-                                    label: Container(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 10,
-                                      ),
-                                      alignment: Alignment.centerLeft,
-                                      child: const Text(
-                                        'Division',
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
+                                        const GridSummaryColumn(
+                                          name: 'Girls',
+                                          columnName: 'girls_count',
+                                          summaryType: GridSummaryType.sum,
                                         ),
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
+                                      ],
                                     ),
-                                  ),
-                                  GridColumn(
-                                    columnName: 'boys_count',
-                                    label: Container(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 10,
-                                      ),
-                                      alignment: Alignment.centerLeft,
-                                      child: const Text(
-                                        'Boys',
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ),
-                                  ),
-                                  GridColumn(
-                                    columnName: 'girls_count',
-                                    label: Container(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 10,
-                                      ),
-                                      alignment: Alignment.centerLeft,
-                                      child: const Text(
-                                        'Girls',
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                                tableSummaryRows: [
-                                  GridTableSummaryRow(
-                                    position:
-                                        GridTableSummaryRowPosition.bottom,
-                                    showSummaryInRow: false,
-                                    columns: [
-                                      const GridSummaryColumn(
-                                        name: 'Boys',
-                                        columnName: 'boys_count',
-                                        summaryType: GridSummaryType.sum,
-                                      ),
-                                      const GridSummaryColumn(
-                                        name: 'Girls',
-                                        columnName: 'girls_count',
-                                        summaryType: GridSummaryType.sum,
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
-                            ),
+                          ),
                     ),
                   ],
                 ),

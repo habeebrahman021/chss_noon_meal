@@ -26,7 +26,7 @@ class AppColors {
   static const Color keyboard_BG = Color(0xffF3F3F3);
   static const Color textFieldBg = Color(0xfff5f5f5);
   static const Color white = Color(0xffffffff);
-  static const Color backgroundColor = Color(0xffF3F8FE);
+  static const Color backgroundColor = Color(0xff2596be);
   static const Color black = Color(0xff000000);
   static const Color targetValueBoxBg = Color(0xffECF5FF);
   static const Color targetAchievedTextColor = Color(0xff00C399);
