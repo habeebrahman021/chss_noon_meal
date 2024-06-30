@@ -53,7 +53,9 @@ class ReportScreenState extends State<ReportScreen> {
                 return Visibility(
                   visible: state.userRole == 1 || state.userRole == 2,
                   child: IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      context.read<ReportsBloc>().add(ExportButtonPressed());
+                    },
                     icon: const Icon(Icons.save),
                   ),
                 );
