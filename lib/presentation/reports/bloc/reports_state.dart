@@ -8,6 +8,7 @@ class ReportsState extends Equatable {
     DateTime? endDate,
     this.status = Status.initial,
     this.dailyEntryList = const [],
+    this.classList = const [],
   })  : date = date ?? DateTime.now(),
         startDate = startDate ?? DateTime.now().firstDayOfMonth,
         endDate = endDate ?? DateTime.now();
@@ -16,6 +17,7 @@ class ReportsState extends Equatable {
   final DateTime date;
   final DateTime startDate;
   final DateTime endDate;
+  final List<ClassData> classList;
   final List<DailyEntry> dailyEntryList;
   final Status status;
 
@@ -35,6 +37,7 @@ class ReportsState extends Equatable {
   List<Object?> get props => [
         userRole,
         dailyEntryList,
+        classList,
         date,
         startDate,
         endDate,
@@ -46,6 +49,7 @@ class ReportsState extends Equatable {
     DateTime? date,
     DateTime? startDate,
     DateTime? endDate,
+    List<ClassData>? classList,
     List<DailyEntry>? dailyEntryList,
     Status? status,
   }) {
@@ -54,6 +58,7 @@ class ReportsState extends Equatable {
       date: date ?? this.date,
       startDate: startDate ?? this.startDate,
       endDate: endDate ?? this.endDate,
+      classList: classList ?? this.classList,
       dailyEntryList: dailyEntryList ?? this.dailyEntryList,
       status: status ?? this.status,
     );

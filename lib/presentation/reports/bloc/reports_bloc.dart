@@ -3,8 +3,10 @@ import 'dart:async';
 import 'package:chss_noon_meal/core/enum/status.dart';
 import 'package:chss_noon_meal/core/extension/date_time_extension.dart';
 import 'package:chss_noon_meal/core/extension/either_extension.dart';
+import 'package:chss_noon_meal/domain/entity/config/class_data.dart';
 import 'package:chss_noon_meal/domain/entity/daily_entry/daily_entry.dart';
 import 'package:chss_noon_meal/domain/use_case/config/get_class_list_use_case.dart';
+import 'package:chss_noon_meal/domain/use_case/daily_entry/export_report_to_excel_use_case.dart';
 import 'package:chss_noon_meal/domain/use_case/daily_entry/get_student_entries_by_date_range_use_case.dart';
 import 'package:chss_noon_meal/domain/use_case/daily_entry/get_student_entries_by_date_use_case.dart';
 import 'package:chss_noon_meal/domain/use_case/daily_entry/update_class_list_with_daily_entries_use_case.dart';
@@ -26,6 +28,7 @@ class ReportsBloc extends Bloc<ReportsEvent, ReportsState> {
     required this.getDailyEntriesByDateRangeUseCase,
     required this.getSavedOrganizationIdUseCase,
     required this.updateClassListWithDailyEntriesUseCase,
+    required this.exportReportToExcelUseCase,
   }) : super(ReportsState()) {
     on<ReportsEvent>((event, emit) {});
     on<ReportsEventInitial>(_onReportsEventInitial);
@@ -33,6 +36,7 @@ class ReportsBloc extends Bloc<ReportsEvent, ReportsState> {
     on<DateSelected>(_onDateSelected);
     on<StartDateSelected>(_onStartDateSelected);
     on<EndDateSelected>(_onEndDateSelected);
+    on<ExportButtonPressed>(_onExportButtonPressed);
   }
 
   final GetSavedUserRoleUseCase getSavedUserRoleUseCase;
@@ -42,6 +46,7 @@ class ReportsBloc extends Bloc<ReportsEvent, ReportsState> {
   final GetSavedOrganizationIdUseCase getSavedOrganizationIdUseCase;
   final UpdateClassListWithDailyEntriesUseCase
       updateClassListWithDailyEntriesUseCase;
+  final ExportReportToExcelUseCase exportReportToExcelUseCase;
 
   Future<void> _onGetDailyEntriesByDate(
     GetDailyEntriesByDate event,
@@ -57,6 +62,8 @@ class ReportsBloc extends Bloc<ReportsEvent, ReportsState> {
       state.copyWith(status: Status.failure);
       return;
     }
+
+    emit(state.copyWith(classList: getClassListResult.right));
 
     final isAdmin = state.userRole == 1 || state.userRole == 2;
     // Get Daily Entries
@@ -134,5 +141,19 @@ class ReportsBloc extends Bloc<ReportsEvent, ReportsState> {
     if (result.isRight) {
       emit(state.copyWith(userRole: result.right));
     }
+  }
+
+  Future<void> _onExportButtonPressed(
+    ExportButtonPressed event,
+    Emitter<ReportsState> emit,
+  ) async {
+    final _ = await exportReportToExcelUseCase(
+      ExportReportToExcelUseCaseParams(
+        classList: state.classList,
+        dailyEntryList: state.dailyEntryList,
+        startDate: state.startDate,
+        endDate: state.endDate,
+      ),
+    );
   }
 }

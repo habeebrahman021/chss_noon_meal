@@ -38,3 +38,8 @@ class EndDateSelected extends ReportsEvent {
   @override
   List<Object?> get props => [date];
 }
+
+class ExportButtonPressed extends ReportsEvent {
+  @override
+  List<Object?> get props => [];
+}

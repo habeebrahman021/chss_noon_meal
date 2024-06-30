@@ -8,7 +8,7 @@ import 'package:chss_noon_meal/presentation/reports/screen/report_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../presentation/student_entry/screen/daily_entry_screen.dart';
+import 'package:chss_noon_meal/presentation/student_entry/screen/daily_entry_screen.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
