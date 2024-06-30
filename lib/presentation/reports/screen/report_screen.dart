@@ -210,6 +210,25 @@ class ReportScreenState extends State<ReportScreen> {
                                     ),
                                   ),
                                 ],
+                                tableSummaryRows: [
+                                  GridTableSummaryRow(
+                                    position:
+                                        GridTableSummaryRowPosition.bottom,
+                                    showSummaryInRow: false,
+                                    columns: [
+                                      GridSummaryColumn(
+                                        name: 'Boys',
+                                        columnName: 'boys_count',
+                                        summaryType: GridSummaryType.sum,
+                                      ),
+                                      GridSummaryColumn(
+                                        name: 'Girls',
+                                        columnName: 'girls_count',
+                                        summaryType: GridSummaryType.sum,
+                                      ),
+                                    ],
+                                  ),
+                                ],
                               ),
                             ),
                     ),

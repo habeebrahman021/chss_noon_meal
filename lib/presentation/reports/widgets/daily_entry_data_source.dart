@@ -27,6 +27,22 @@ class DailyEntryDataGridDataSource extends DataGridSource {
   List<DataGridRow> get rows => _dailyEntries;
 
   @override
+  Widget? buildTableSummaryCellWidget(
+    GridTableSummaryRow summaryRow,
+    GridSummaryColumn? summaryColumn,
+    RowColumnIndex rowColumnIndex,
+    String summaryValue,
+  ) {
+    return Container(
+      alignment: Alignment.centerLeft,
+      child: Text(
+        summaryValue,
+        style: const TextStyle(fontWeight: FontWeight.w600),
+      ),
+    );
+  }
+
+  @override
   DataGridRowAdapter? buildRow(DataGridRow row) {
     Color getBackgroundColor() {
       final index = effectiveRows.indexOf(row);

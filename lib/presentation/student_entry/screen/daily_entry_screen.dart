@@ -41,444 +41,441 @@ class _DailyEntryScreenState extends State<DailyEntryScreen> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => injector<DailyEntryBloc>(),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Scaffold(
-          backgroundColor: AppColors.white,
-          body: BlocListener<DailyEntryBloc, DailyEntryState>(
-            listener: (context, state) {
-              if (state.status.isSuccess) {
-                GoRouter.of(context).pop();
+      child: Scaffold(
+        backgroundColor: AppColors.white,
+        body: BlocListener<DailyEntryBloc, DailyEntryState>(
+          listener: (context, state) {
+            if (state.status.isSuccess) {
+              GoRouter.of(context).pop();
+            }
+          },
+          child: BlocBuilder<DailyEntryBloc, DailyEntryState>(
+            builder: (context, state) {
+              if (_classController.text != state.selectedClassName) {
+                _classController.text = state.selectedClassName;
               }
-            },
-            child: BlocBuilder<DailyEntryBloc, DailyEntryState>(
-              builder: (context, state) {
-                if (_classController.text != state.selectedClassName) {
-                  _classController.text = state.selectedClassName;
-                }
 
-                if (_divisionController.text != state.selectedDivision) {
-                  _divisionController.text = state.selectedDivision ?? '';
-                }
+              if (_divisionController.text != state.selectedDivision) {
+                _divisionController.text = state.selectedDivision ?? '';
+              }
 
-                if (_boysCountController.text != state.boysCount) {
-                  _boysCountController.text = state.boysCount;
-                }
+              if (_boysCountController.text != state.boysCount) {
+                _boysCountController.text = state.boysCount;
+              }
 
-                if (_girlsCountController.text != state.girlsCount) {
-                  _girlsCountController.text = state.girlsCount;
-                }
-                return SafeArea(
-                  child: Form(
-                    key: _formKey,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 15, left: 5),
-                          child: IconButton(
-                            icon: const Icon(
-                              Icons.arrow_back,
-                              color: AppColors.black,
-                            ),
-                            onPressed: () => GoRouter.of(context)
-                                .pop(), // Go back using GoRouter
+              if (_girlsCountController.text != state.girlsCount) {
+                _girlsCountController.text = state.girlsCount;
+              }
+              return SafeArea(
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 15, left: 5),
+                        child: IconButton(
+                          icon: const Icon(
+                            Icons.arrow_back,
+                            color: AppColors.black,
                           ),
+                          onPressed: () => GoRouter.of(context)
+                              .pop(), // Go back using GoRouter
                         ),
-                        Expanded(
-                          child: SingleChildScrollView(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Gap(10),
-                                const Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 20),
-                                  child: Text(
-                                    'Daily Entry',
-                                    style: TextStyle(
-                                      fontSize: 19,
-                                      color: AppColors.app_color,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                    textAlign: TextAlign.start,
-                                  ),
-                                ),
-                                const Gap(5),
-                                const Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 20),
-                                  child: Text(
-                                    'Enter daily counts of boys and girls receiving noon meals by class and division',
-                                    style: TextStyle(
-                                      fontSize: 13,
-                                      color: AppColors.commentTextColor,
-                                    ),
-                                    textAlign: TextAlign.start,
-                                  ),
-                                ),
-                                const Gap(24),
-                                const Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 20),
-                                  child: Text(
-                                    'Date *',
-                                    style: TextStyle(
-                                      fontSize: 13,
-                                      color: AppColors.darkGrey,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                    textAlign: TextAlign.start,
-                                  ),
-                                ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 20),
-                                  child: TextFormField(
-                                    initialValue: state.date
-                                        .toStringFormatted('dd MMM yyyy'),
-                                    enabled: false,
-                                    decoration: const InputDecoration(
-                                      hintText: 'Select Date',
-                                      hintStyle: TextStyle(
-                                        color: AppColors.textColor,
-                                      ),
-                                      border: UnderlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: AppColors.textColor,
-                                        ), // Default bottom border
-                                      ),
-                                      enabledBorder: UnderlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: AppColors.textColor,
-                                        ), // Bottom border when enabled
-                                      ),
-                                      focusedBorder: UnderlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: AppColors.textColor,
-                                          width: 2,
-                                        ), // Bottom border when focused
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                const Gap(24),
-                                const Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 20),
-                                  child: Text(
-                                    'Class *',
-                                    style: TextStyle(
-                                      fontSize: 13,
-                                      color: AppColors.darkGrey,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                    textAlign: TextAlign.start,
-                                  ),
-                                ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 20),
-                                  child: TextFormField(
-                                    controller: _classController,
-                                    readOnly: true,
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return 'Please select a class';
-                                      }
-                                      return null;
-                                    },
-                                    decoration: const InputDecoration(
-                                      hintText: 'Select Class',
-                                      hintStyle: TextStyle(
-                                        color: AppColors.textColor,
-                                      ),
-                                      border: UnderlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: AppColors.textColor,
-                                        ), // Default bottom border
-                                      ),
-                                      enabledBorder: UnderlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: AppColors.textColor,
-                                        ), // Bottom border when enabled
-                                      ),
-                                      focusedBorder: UnderlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: AppColors.textColor,
-                                          width: 2,
-                                        ), // Bottom border when focused
-                                      ),
-                                    ),
-                                    onTap: () {
-                                      showClassSelectionBottomSheet(
-                                        context: context,
-                                        classList: state.classList,
-                                        selectedItem: state.selectedClass,
-                                        onSelected: (index) {
-                                          context.read<DailyEntryBloc>().add(
-                                                ClassSelected(
-                                                  classData:
-                                                      state.classList[index],
-                                                ),
-                                              );
-                                        },
-                                      );
-                                    },
-                                  ),
-                                ),
-                                const Gap(24),
-                                const Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 20),
-                                  child: Text(
-                                    'Division *',
-                                    style: TextStyle(
-                                      fontSize: 13,
-                                      color: AppColors.darkGrey,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                    textAlign: TextAlign.start,
-                                  ),
-                                ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 20),
-                                  child: TextFormField(
-                                    controller: _divisionController,
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return 'Please select a division';
-                                      }
-                                      return null;
-                                    },
-                                    readOnly: true,
-                                    decoration: const InputDecoration(
-                                      hintText: 'Select Division',
-                                      hintStyle:
-                                          TextStyle(color: AppColors.textColor),
-                                      border: UnderlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: AppColors.textColor,
-                                        ), // Default bottom border
-                                      ),
-                                      enabledBorder: UnderlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: AppColors.textColor,
-                                        ), // Bottom border when enabled
-                                      ),
-                                      focusedBorder: UnderlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: AppColors.textColor,
-                                          width: 2,
-                                        ), // Bottom border when focused
-                                      ),
-                                    ),
-                                    onTap: () {
-                                      final divisionList =
-                                          state.selectedClass?.divisions ?? [];
-                                      if (state.selectedClass != null) {
-                                        showDivisionSelectionBottomSheet(
-                                          context: context,
-                                          divisionList: divisionList,
-                                          selectedItem: state.selectedDivision,
-                                          onSelected: (index) {
-                                            context.read<DailyEntryBloc>().add(
-                                                  DivisionSelected(
-                                                    division: divisionList[index],
-                                                  ),
-                                                );
-                                          },
-                                        );
-                                      } else {
-                                        Utils.showToast('Please select a class');
-                                      }
-                                    },
-                                  ),
-                                ),
-                                const Gap(24),
-                                const Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 20),
-                                  child: Text(
-                                    'Boys *',
-                                    style: TextStyle(
-                                      fontSize: 13,
-                                      color: AppColors.darkGrey,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                    textAlign: TextAlign.start,
-                                  ),
-                                ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 20),
-                                  child: TextFormField(
-                                    controller: _boysCountController,
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return 'Please enter boys count';
-                                      }
-                                      return null;
-                                    },
-                                    keyboardType: TextInputType.number,
-                                    textInputAction: TextInputAction.next,
-                                    decoration: const InputDecoration(
-                                      hintText: 'Enter Boys Count',
-                                      hintStyle:
-                                          TextStyle(color: AppColors.textColor),
-                                      border: UnderlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: AppColors.textColor,
-                                        ), // Default bottom border
-                                      ),
-                                      enabledBorder: UnderlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: AppColors.textColor,
-                                        ), // Bottom border when enabled
-                                      ),
-                                      focusedBorder: UnderlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: AppColors.textColor,
-                                          width: 2,
-                                        ), // Bottom border when focused
-                                      ),
-                                    ),
-                                    onTapOutside: (_) => unFocusKeyboard,
-                                    onChanged: (value) {
-                                      context
-                                          .read<DailyEntryBloc>()
-                                          .add(BoysCountChanged(count: value));
-                                    },
-                                  ),
-                                ),
-                                const Gap(24),
-                                const Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 20),
-                                  child: Text(
-                                    'Girls *',
-                                    style: TextStyle(
-                                      fontSize: 13,
-                                      color: AppColors.darkGrey,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                    textAlign: TextAlign.start,
-                                  ),
-                                ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 20),
-                                  child: TextFormField(
-                                    controller: _girlsCountController,
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return 'Please enter girls count';
-                                      }
-                                      return null;
-                                    },
-                                    keyboardType: TextInputType.number,
-                                    textInputAction: TextInputAction.done,
-                                    decoration: const InputDecoration(
-                                      hintText: 'Enter Girls Count',
-                                      hintStyle:
-                                          TextStyle(color: AppColors.textColor),
-                                      border: UnderlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: AppColors.textColor,
-                                        ), // Default bottom border
-                                      ),
-                                      enabledBorder: UnderlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: AppColors.textColor,
-                                        ), // Bottom border when enabled
-                                      ),
-                                      focusedBorder: UnderlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: AppColors.textColor,
-                                          width: 2,
-                                        ), // Bottom border when focused
-                                      ),
-                                    ),
-                                    onTapOutside: (_) => unFocusKeyboard,
-                                    onChanged: (value) {
-                                      context
-                                          .read<DailyEntryBloc>()
-                                          .add(GirlsCountChanged(count: value));
-                                    },
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 20,
-                            vertical: 10,
-                          ),
-                          child: Row(
+                      ),
+                      Expanded(
+                        child: SingleChildScrollView(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Expanded(
-                                child: GestureDetector(
-                                  onTap: () {
-                                    GoRouter.of(context).pop();
-                                  },
-                                  child: Container(
-                                    width: double.infinity,
-                                    height: 45,
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                        color: AppColors.app_color,
-                                      ),
-                                      borderRadius: BorderRadius.circular(10),
+                              const Gap(10),
+                              const Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 20),
+                                child: Text(
+                                  'Daily Entry',
+                                  style: TextStyle(
+                                    fontSize: 19,
+                                    color: AppColors.app_color,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  textAlign: TextAlign.start,
+                                ),
+                              ),
+                              const Gap(5),
+                              const Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 20),
+                                child: Text(
+                                  'Enter daily counts of boys and girls receiving noon meals by class and division',
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    color: AppColors.commentTextColor,
+                                  ),
+                                  textAlign: TextAlign.start,
+                                ),
+                              ),
+                              const Gap(24),
+                              const Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 20),
+                                child: Text(
+                                  'Date *',
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    color: AppColors.darkGrey,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  textAlign: TextAlign.start,
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 20),
+                                child: TextFormField(
+                                  initialValue: state.date
+                                      .toStringFormatted('dd MMM yyyy'),
+                                  enabled: false,
+                                  decoration: const InputDecoration(
+                                    hintText: 'Select Date',
+                                    hintStyle: TextStyle(
+                                      color: AppColors.textColor,
                                     ),
-                                    child: const Center(
-                                      child: Text(
-                                        'Cancel',
-                                        style: TextStyle(
-                                          fontSize: 17,
-                                          color: AppColors.black,
-                                        ),
-                                      ),
+                                    border: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: AppColors.textColor,
+                                      ), // Default bottom border
+                                    ),
+                                    enabledBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: AppColors.textColor,
+                                      ), // Bottom border when enabled
+                                    ),
+                                    focusedBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: AppColors.textColor,
+                                        width: 2,
+                                      ), // Bottom border when focused
                                     ),
                                   ),
                                 ),
                               ),
-                              const Gap(25),
-                              Expanded(
-                                child: GestureDetector(
-                                  onTap: () {
-                                    if (_formKey.currentState!.validate()) {
-                                      context
-                                          .read<DailyEntryBloc>()
-                                          .add(SaveButtonPressed());
+                              const Gap(24),
+                              const Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 20),
+                                child: Text(
+                                  'Class *',
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    color: AppColors.darkGrey,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  textAlign: TextAlign.start,
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 20),
+                                child: TextFormField(
+                                  controller: _classController,
+                                  readOnly: true,
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please select a class';
                                     }
+                                    return null;
                                   },
-                                  child: Container(
-                                    width: double.infinity,
-                                    height: 45,
-                                    decoration: BoxDecoration(
-                                      color: AppColors.app_color,
-                                      border: Border.all(
-                                        color: AppColors.app_color,
-                                      ),
-                                      borderRadius: BorderRadius.circular(10),
+                                  decoration: const InputDecoration(
+                                    hintText: 'Select Class',
+                                    hintStyle: TextStyle(
+                                      color: AppColors.textColor,
                                     ),
-                                    child: Center(
-                                      child: Text(
-                                        state.isUpdateMode ? 'Update' : 'Save',
-                                        style: const TextStyle(
-                                          fontSize: 17,
-                                          color: AppColors.white,
-                                        ),
-                                      ),
+                                    border: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: AppColors.textColor,
+                                      ), // Default bottom border
+                                    ),
+                                    enabledBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: AppColors.textColor,
+                                      ), // Bottom border when enabled
+                                    ),
+                                    focusedBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: AppColors.textColor,
+                                        width: 2,
+                                      ), // Bottom border when focused
                                     ),
                                   ),
+                                  onTap: () {
+                                    showClassSelectionBottomSheet(
+                                      context: context,
+                                      classList: state.classList,
+                                      selectedItem: state.selectedClass,
+                                      onSelected: (index) {
+                                        context.read<DailyEntryBloc>().add(
+                                              ClassSelected(
+                                                classData:
+                                                    state.classList[index],
+                                              ),
+                                            );
+                                      },
+                                    );
+                                  },
+                                ),
+                              ),
+                              const Gap(24),
+                              const Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 20),
+                                child: Text(
+                                  'Division *',
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    color: AppColors.darkGrey,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  textAlign: TextAlign.start,
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 20),
+                                child: TextFormField(
+                                  controller: _divisionController,
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please select a division';
+                                    }
+                                    return null;
+                                  },
+                                  readOnly: true,
+                                  decoration: const InputDecoration(
+                                    hintText: 'Select Division',
+                                    hintStyle:
+                                        TextStyle(color: AppColors.textColor),
+                                    border: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: AppColors.textColor,
+                                      ), // Default bottom border
+                                    ),
+                                    enabledBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: AppColors.textColor,
+                                      ), // Bottom border when enabled
+                                    ),
+                                    focusedBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: AppColors.textColor,
+                                        width: 2,
+                                      ), // Bottom border when focused
+                                    ),
+                                  ),
+                                  onTap: () {
+                                    final divisionList =
+                                        state.selectedClass?.divisions ?? [];
+                                    if (state.selectedClass != null) {
+                                      showDivisionSelectionBottomSheet(
+                                        context: context,
+                                        divisionList: divisionList,
+                                        selectedItem: state.selectedDivision,
+                                        onSelected: (index) {
+                                          context.read<DailyEntryBloc>().add(
+                                                DivisionSelected(
+                                                  division: divisionList[index],
+                                                ),
+                                              );
+                                        },
+                                      );
+                                    } else {
+                                      Utils.showToast('Please select a class');
+                                    }
+                                  },
+                                ),
+                              ),
+                              const Gap(24),
+                              const Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 20),
+                                child: Text(
+                                  'Boys *',
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    color: AppColors.darkGrey,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  textAlign: TextAlign.start,
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 20),
+                                child: TextFormField(
+                                  controller: _boysCountController,
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please enter boys count';
+                                    }
+                                    return null;
+                                  },
+                                  keyboardType: TextInputType.number,
+                                  textInputAction: TextInputAction.next,
+                                  decoration: const InputDecoration(
+                                    hintText: 'Enter Boys Count',
+                                    hintStyle:
+                                        TextStyle(color: AppColors.textColor),
+                                    border: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: AppColors.textColor,
+                                      ), // Default bottom border
+                                    ),
+                                    enabledBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: AppColors.textColor,
+                                      ), // Bottom border when enabled
+                                    ),
+                                    focusedBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: AppColors.textColor,
+                                        width: 2,
+                                      ), // Bottom border when focused
+                                    ),
+                                  ),
+                                  onTapOutside: (_) => unFocusKeyboard,
+                                  onChanged: (value) {
+                                    context
+                                        .read<DailyEntryBloc>()
+                                        .add(BoysCountChanged(count: value));
+                                  },
+                                ),
+                              ),
+                              const Gap(24),
+                              const Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 20),
+                                child: Text(
+                                  'Girls *',
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    color: AppColors.darkGrey,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  textAlign: TextAlign.start,
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 20),
+                                child: TextFormField(
+                                  controller: _girlsCountController,
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please enter girls count';
+                                    }
+                                    return null;
+                                  },
+                                  keyboardType: TextInputType.number,
+                                  textInputAction: TextInputAction.done,
+                                  decoration: const InputDecoration(
+                                    hintText: 'Enter Girls Count',
+                                    hintStyle:
+                                        TextStyle(color: AppColors.textColor),
+                                    border: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: AppColors.textColor,
+                                      ), // Default bottom border
+                                    ),
+                                    enabledBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: AppColors.textColor,
+                                      ), // Bottom border when enabled
+                                    ),
+                                    focusedBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: AppColors.textColor,
+                                        width: 2,
+                                      ), // Bottom border when focused
+                                    ),
+                                  ),
+                                  onTapOutside: (_) => unFocusKeyboard,
+                                  onChanged: (value) {
+                                    context
+                                        .read<DailyEntryBloc>()
+                                        .add(GirlsCountChanged(count: value));
+                                  },
                                 ),
                               ),
                             ],
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 10,
+                        ),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: GestureDetector(
+                                onTap: () {
+                                  GoRouter.of(context).pop();
+                                },
+                                child: Container(
+                                  width: double.infinity,
+                                  height: 45,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: AppColors.app_color,
+                                    ),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: const Center(
+                                    child: Text(
+                                      'Cancel',
+                                      style: TextStyle(
+                                        fontSize: 17,
+                                        color: AppColors.black,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const Gap(25),
+                            Expanded(
+                              child: GestureDetector(
+                                onTap: () {
+                                  if (_formKey.currentState!.validate()) {
+                                    context
+                                        .read<DailyEntryBloc>()
+                                        .add(SaveButtonPressed());
+                                  }
+                                },
+                                child: Container(
+                                  width: double.infinity,
+                                  height: 45,
+                                  decoration: BoxDecoration(
+                                    color: AppColors.app_color,
+                                    border: Border.all(
+                                      color: AppColors.app_color,
+                                    ),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      state.isUpdateMode ? 'Update' : 'Save',
+                                      style: const TextStyle(
+                                        fontSize: 17,
+                                        color: AppColors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                );
-              },
-            ),
+                ),
+              );
+            },
           ),
         ),
       ),
