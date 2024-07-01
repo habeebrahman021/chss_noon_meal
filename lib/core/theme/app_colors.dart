@@ -7,7 +7,6 @@ class AppColors {
   static const Color paraColor = Color(0xFF8f837f);
   static const Color buttonBackgroundColor = Color(0xFFf7f6f6);
   static const Color signColor = Color(0xFFa9a29f);
-  static const Color titleColor = Color(0xFF5c524f);
   static const Color mainBlackColor = Color(0xFF332d2b);
   static const Color yellowColor = Color(0xffF8F5AA);
   static const Color yellowColorDark = Color(0xFFffb379);
@@ -23,7 +22,7 @@ class AppColors {
   static const Color textColor = Color(0xffa1a1a1);
   static const Color lightGrey = Color(0xfff1f1f1);
   static const Color formIconCircleColor = Color(0xffaeaaa8);
-  static const Color keyboard_BG = Color(0xffF3F3F3);
+  static const Color keyboardBG = Color(0xffF3F3F3);
   static const Color textFieldBg = Color(0xfff5f5f5);
   static const Color white = Color(0xffffffff);
   static const Color backgroundColor = Color(0xff2596be);
@@ -34,7 +33,7 @@ class AppColors {
   static const Color blackLight = Color(0xff3A3A3A);
   static const Color dividerColor = Color(0xffE2ECF8);
   static const Color darkGrey = Color(0xff1C1E26);
-  static const Color title_color = Color(0xff767B85);
+  static const Color titleColor = Color(0xff767B85);
   static const Color punchoutColor = Color(0xffC1C5CC);
   static const Color orderAddanotherbg = Color(0xffF3F8FE);
   static const Color orderAddcommentbg = Color(0xffE2ECF8);
@@ -99,7 +98,7 @@ class AppColors {
   static const Color wipdark = Color(0xffF8934A);
   static const Color rejectlight = Color(0xffFCECEE);
   static const Color rejectdark = Color(0xffED273F);
-  static const Color app_color = Color(0xff285da3);
+  static const Color appColor = Color(0xff285da3);
   static const Color headerColor= Color(0xff78398d);
 
   static Color grey400 = const Color(0xFF1C1E26); // Grey400

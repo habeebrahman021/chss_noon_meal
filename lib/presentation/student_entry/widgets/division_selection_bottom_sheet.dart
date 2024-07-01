@@ -47,7 +47,7 @@ class DivisionSelectionBottomSheet extends StatelessWidget {
                 'Select Division',
                 style: TextStyle(
                   fontSize: 18,
-                  color: AppColors.app_color,
+                  color: AppColors.appColor,
                   fontWeight: FontWeight.bold,
                 ),
                 textAlign: TextAlign.start,
@@ -91,7 +91,7 @@ class DivisionSelectionBottomSheet extends StatelessWidget {
                         decoration: BoxDecoration(
                           color: selectedItem == item
                               ? AppColors.green
-                              : AppColors.app_color,
+                              : AppColors.appColor,
                           borderRadius: BorderRadius.circular(12),
                           boxShadow: [
                             BoxShadow(

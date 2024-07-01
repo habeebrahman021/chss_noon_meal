@@ -57,7 +57,7 @@ class DailyEntryDataGridDataSource extends DataGridSource {
       if (index.isEven) {
         return AppColors.white;
       } else {
-        return AppColors.keyboard_BG;
+        return AppColors.keyboardBG;
       }
     }
 

@@ -5,14 +5,13 @@ import 'package:chss_noon_meal/core/theme/app_colors.dart';
 import 'package:chss_noon_meal/domain/entity/dashboard/chart_data.dart';
 import 'package:chss_noon_meal/presentation/home/bloc/home_bloc.dart';
 import 'package:chss_noon_meal/presentation/login/screen/login_screen.dart';
+import 'package:chss_noon_meal/presentation/reports/screen/report_screen.dart';
 import 'package:chss_noon_meal/presentation/student_entry/screen/daily_entry_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-
-import '../../reports/screen/report_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -28,7 +27,7 @@ class HomeScreen extends StatelessWidget {
           return Scaffold(
             backgroundColor: AppColors.white,
             appBar: AppBar(
-              backgroundColor: AppColors.app_color,
+              backgroundColor: AppColors.appColor,
               elevation: 0,
               title: const Text(
                 'Home',
@@ -104,7 +103,7 @@ class HomeScreen extends StatelessWidget {
                             'Welcome to the Dashboard',
                             style: TextStyle(
                               //  fontSize: 18,
-                              color: AppColors.title_color,
+                              color: AppColors.titleColor,
                             ),
                             textAlign: TextAlign.start,
                           ),
@@ -284,7 +283,7 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
             floatingActionButton: FloatingActionButton(
-              backgroundColor: AppColors.app_color,
+              backgroundColor: AppColors.appColor,
               onPressed: () async {
                 await GoRouter.of(context)
                     .pushNamed(DailyEntryScreen.route)

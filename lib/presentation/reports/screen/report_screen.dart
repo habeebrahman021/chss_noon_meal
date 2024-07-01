@@ -45,7 +45,7 @@ class ReportScreenState extends State<ReportScreen> {
       child: Scaffold(
         backgroundColor: AppColors.white,
         appBar: AppBar(
-          backgroundColor: AppColors.app_color,
+          backgroundColor: AppColors.appColor,
           title: const Text('Report'),
           actions: [
             BlocBuilder<ReportsBloc, ReportsState>(
@@ -279,11 +279,11 @@ class ReportScreenState extends State<ReportScreen> {
                       child: state.status.isLoading
                           ? const Center(child: CircularProgressIndicator())
                           : Padding(
-                            padding: const EdgeInsets.all(12.0),
-                            child: SfDataGridTheme(
+                              padding: const EdgeInsets.all(12),
+                              child: SfDataGridTheme(
                                 data: SfDataGridThemeData(
                                   gridLineColor: AppColors.grey150,
-                                   headerColor: AppColors.backgroundColor,
+                                  headerColor: AppColors.backgroundColor,
                                 ),
                                 child: SfDataGrid(
                                   headerRowHeight: 45,
@@ -306,7 +306,7 @@ class ReportScreenState extends State<ReportScreen> {
                                             'Date',
                                             style: TextStyle(
                                               fontWeight: FontWeight.bold,
-                                              color: AppColors.white
+                                              color: AppColors.white,
                                             ),
                                             overflow: TextOverflow.ellipsis,
                                           ),
@@ -324,7 +324,7 @@ class ReportScreenState extends State<ReportScreen> {
                                           'Class',
                                           style: TextStyle(
                                             fontWeight: FontWeight.bold,
-                                              color: AppColors.white
+                                            color: AppColors.white,
                                           ),
                                           overflow: TextOverflow.ellipsis,
                                         ),
@@ -341,7 +341,7 @@ class ReportScreenState extends State<ReportScreen> {
                                           'Division',
                                           style: TextStyle(
                                             fontWeight: FontWeight.bold,
-                                              color: AppColors.white
+                                            color: AppColors.white,
                                           ),
                                           overflow: TextOverflow.ellipsis,
                                         ),
@@ -358,7 +358,7 @@ class ReportScreenState extends State<ReportScreen> {
                                           'Boys',
                                           style: TextStyle(
                                             fontWeight: FontWeight.bold,
-                                              color: AppColors.white
+                                            color: AppColors.white,
                                           ),
                                           overflow: TextOverflow.ellipsis,
                                         ),
@@ -375,7 +375,7 @@ class ReportScreenState extends State<ReportScreen> {
                                           'Girls',
                                           style: TextStyle(
                                             fontWeight: FontWeight.bold,
-                                              color: AppColors.white
+                                            color: AppColors.white,
                                           ),
                                           overflow: TextOverflow.ellipsis,
                                         ),
@@ -403,7 +403,7 @@ class ReportScreenState extends State<ReportScreen> {
                                   ],
                                 ),
                               ),
-                          ),
+                            ),
                     ),
                   ],
                 ),

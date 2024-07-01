@@ -17,7 +17,8 @@ class GetStudentEntryCountByDate
 
   @override
   Future<List<ChartData>> execute(
-      GetStudentEntryCountByDateParams params) async {
+    GetStudentEntryCountByDateParams params,
+  ) async {
     final organizationId = await preferenceDataSource.getOrganizationId();
     final result = await dailyEntryRepository.getDailyEntriesByDate(
       date: params.date,

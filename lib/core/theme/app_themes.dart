@@ -1,5 +1,6 @@
 import 'package:chss_noon_meal/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class AppThemes {
   static ThemeData get light {
@@ -7,12 +8,16 @@ class AppThemes {
       brightness: Brightness.light,
       // scaffoldBackgroundColor: Colors.white,
       fontFamily: 'SegoeUI',
-      appBarTheme: const AppBarTheme(
-        backgroundColor: AppColors.app_color,
-        foregroundColor: AppColors.white,
-        titleTextStyle: TextStyle(
+      appBarTheme: AppBarTheme(
+        backgroundColor: AppColors.appColor,
+        titleTextStyle: const TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.w600,
+        ),
+        systemOverlayStyle: SystemUiOverlayStyle.dark.copyWith(
+          statusBarColor: AppColors.white,
+          systemNavigationBarColor: AppColors.white,
+          statusBarIconBrightness: Brightness.dark,
         ),
       ),
     );

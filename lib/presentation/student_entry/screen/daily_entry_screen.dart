@@ -95,7 +95,7 @@ class _DailyEntryScreenState extends State<DailyEntryScreen> {
                                   'Daily Entry',
                                   style: TextStyle(
                                     fontSize: 19,
-                                    color: AppColors.app_color,
+                                    color: AppColors.appColor,
                                     fontWeight: FontWeight.bold,
                                   ),
                                   textAlign: TextAlign.start,
@@ -420,7 +420,7 @@ class _DailyEntryScreenState extends State<DailyEntryScreen> {
                                   height: 45,
                                   decoration: BoxDecoration(
                                     border: Border.all(
-                                      color: AppColors.app_color,
+                                      color: AppColors.appColor,
                                     ),
                                     borderRadius: BorderRadius.circular(10),
                                   ),
@@ -450,9 +450,9 @@ class _DailyEntryScreenState extends State<DailyEntryScreen> {
                                   width: double.infinity,
                                   height: 45,
                                   decoration: BoxDecoration(
-                                    color: AppColors.app_color,
+                                    color: AppColors.appColor,
                                     border: Border.all(
-                                      color: AppColors.app_color,
+                                      color: AppColors.appColor,
                                     ),
                                     borderRadius: BorderRadius.circular(10),
                                   ),

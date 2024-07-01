@@ -5,10 +5,9 @@ import 'package:chss_noon_meal/domain/use_case/use_case.dart';
 import 'package:chss_noon_meal/presentation/home/screen/home_screen.dart';
 import 'package:chss_noon_meal/presentation/login/screen/login_screen.dart';
 import 'package:chss_noon_meal/presentation/reports/screen/report_screen.dart';
+import 'package:chss_noon_meal/presentation/student_entry/screen/daily_entry_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-
-import 'package:chss_noon_meal/presentation/student_entry/screen/daily_entry_screen.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -25,17 +24,17 @@ class AppRouter {
       GoRoute(
         path: HomeScreen.route,
         name: HomeScreen.route,
-        builder: (context, state) =>  HomeScreen(),
+        builder: (context, state) => const HomeScreen(),
       ),
       GoRoute(
         path: DailyEntryScreen.route,
         name: DailyEntryScreen.route,
-        builder: (context, state) =>  DailyEntryScreen(),
+        builder: (context, state) => const DailyEntryScreen(),
       ),
       GoRoute(
         path: ReportScreen.route,
         name: ReportScreen.route,
-        builder: (context, state) =>  ReportScreen(),
+        builder: (context, state) => const ReportScreen(),
       ),
     ],
     redirect: (context, state) async {

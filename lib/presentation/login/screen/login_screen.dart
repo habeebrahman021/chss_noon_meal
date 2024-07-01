@@ -119,28 +119,32 @@ class LoginScreen extends StatelessWidget {
                       padding: const EdgeInsets.only(bottom: 30, top: 15),
                       child: Center(
                         child: GestureDetector(
-                          onTap: () {
-                            context
-                                .read<LoginBloc>()
-                                .add(const LoginButtonPressed());
-                          },
+                          onTap: state.loginStatus.isLoading
+                              ? null
+                              : () {
+                                  context
+                                      .read<LoginBloc>()
+                                      .add(const LoginButtonPressed());
+                                },
                           child: Container(
                             margin: const EdgeInsets.symmetric(horizontal: 24),
                             padding: const EdgeInsets.symmetric(vertical: 16),
                             width: double.infinity,
                             decoration: BoxDecoration(
-                              color: AppColors.app_color,
+                              color: AppColors.appColor,
                               borderRadius: BorderRadius.circular(25),
                             ),
-                            child: const Center(
-                              child: Text(
-                                'Login',
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w600,
-                                  color: AppColors.white,
-                                ),
-                              ),
+                            child: Center(
+                              child: state.loginStatus.isLoading
+                                  ? const CircularProgressIndicator()
+                                  : const Text(
+                                      'Login',
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600,
+                                        color: AppColors.white,
+                                      ),
+                                    ),
                             ),
                           ),
                         ),
