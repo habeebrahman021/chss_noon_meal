@@ -47,6 +47,10 @@ class DailyEntryBloc extends Bloc<DailyEntryEvent, DailyEntryState> {
     final result = await getClassListUseCase(NoParams());
     if (result.isRight) {
       emit(state.copyWith(classList: result.right));
+      if (result.right.length == 1) {
+        emit(state.copyWith(selectedClass: result.right.first));
+        add(ClassSelected(classData: result.right.first));
+      }
     }
   }
 

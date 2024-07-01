@@ -7,6 +7,7 @@ import 'package:chss_noon_meal/presentation/student_entry/bloc/daily_entry_bloc.
 import 'package:chss_noon_meal/presentation/student_entry/widgets/class_selection_bottom_sheet.dart';
 import 'package:chss_noon_meal/presentation/student_entry/widgets/division_selection_bottom_sheet.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
@@ -31,10 +32,32 @@ class _DailyEntryScreenState extends State<DailyEntryScreen> {
   @override
   void initState() {
     super.initState();
+
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(
+        statusBarColor: AppColors.white,
+        statusBarIconBrightness: Brightness.dark,
+      ),
+    );
+
+
     _classController = TextEditingController();
     _divisionController = TextEditingController();
     _boysCountController = TextEditingController();
     _girlsCountController = TextEditingController();
+
+
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(
+        statusBarColor: AppColors.appColor,
+        statusBarIconBrightness: Brightness.light,
+      ),
+    );
   }
 
   @override

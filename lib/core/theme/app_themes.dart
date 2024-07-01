@@ -10,14 +10,17 @@ class AppThemes {
       fontFamily: 'SegoeUI',
       appBarTheme: AppBarTheme(
         backgroundColor: AppColors.appColor,
+        foregroundColor: AppColors.white,
+        surfaceTintColor: AppColors.white,
         titleTextStyle: const TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.w600,
         ),
         systemOverlayStyle: SystemUiOverlayStyle.dark.copyWith(
-          statusBarColor: AppColors.white,
+          statusBarColor: AppColors.appColor,
+          statusBarIconBrightness: Brightness.light,
           systemNavigationBarColor: AppColors.white,
-          statusBarIconBrightness: Brightness.dark,
+          systemNavigationBarIconBrightness: Brightness.dark,
         ),
       ),
     );

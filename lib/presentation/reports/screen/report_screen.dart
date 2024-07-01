@@ -45,7 +45,6 @@ class ReportScreenState extends State<ReportScreen> {
       child: Scaffold(
         backgroundColor: AppColors.white,
         appBar: AppBar(
-          backgroundColor: AppColors.appColor,
           title: const Text('Report'),
           actions: [
             BlocBuilder<ReportsBloc, ReportsState>(
