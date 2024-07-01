@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:chss_noon_meal/core/exceptions.dart';
 import 'package:chss_noon_meal/core/extension/date_time_extension.dart';
 import 'package:chss_noon_meal/domain/entity/config/class_data.dart';
 import 'package:chss_noon_meal/domain/entity/daily_entry/daily_entry.dart';
@@ -8,8 +9,6 @@ import 'package:chss_noon_meal/domain/use_case/use_case.dart';
 // ignore: depend_on_referenced_packages
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
-import 'package:open_file/open_file.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:syncfusion_flutter_xlsio/xlsio.dart';
 
 class ExportReportToExcelUseCase
@@ -116,17 +115,31 @@ class ExportReportToExcelUseCase
 
     final bytes = workbook.saveAsStream();
 
-    // Save the Excel file
-    final path = (await getApplicationDocumentsDirectory()).path;
-    final fileName = '$path/chss_meals_report.xlsx';
-    final file = File(fileName);
+    // Get the Downloads directory
+    final downloadsDirectory = Directory('/storage/emulated/0/Download');
+
+    // Create ChssNoonMeal folder if it doesn't exist
+    final chssNoonMealDirectory =
+        Directory('${downloadsDirectory.path}/ChssNoonMeal');
+    if (!chssNoonMealDirectory.existsSync()) {
+      await chssNoonMealDirectory.create(recursive: true);
+    }
+    final fileName = 'chss_meals_report_'
+        '${params.startDate.toStringFormatted('dd-MM-yyyy')}'
+        '-${params.endDate.toStringFormatted('dd-MM-yyyy')}'
+        '.xlsx';
+    final filePath = '${chssNoonMealDirectory.path}/$fileName';
+    final file = File(filePath);
     await file.writeAsBytes(bytes, flush: true);
 
-    // Open the Excel file
-    await OpenFile.open(fileName);
-
     workbook.dispose();
-    return 'File saved to $path';
+
+    // Ensure the file is visible in the file system
+    if (file.existsSync()) {
+      return filePath;
+    } else {
+      throw FailureException('Error occurred while saving the file');
+    }
   }
 
   bool isSameDay(DateTime? date1, DateTime? date2) {

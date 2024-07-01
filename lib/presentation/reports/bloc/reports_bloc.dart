@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:chss_noon_meal/core/enum/status.dart';
 import 'package:chss_noon_meal/core/extension/date_time_extension.dart';
 import 'package:chss_noon_meal/core/extension/either_extension.dart';
+import 'package:chss_noon_meal/core/utils.dart';
 import 'package:chss_noon_meal/domain/entity/config/class_data.dart';
 import 'package:chss_noon_meal/domain/entity/daily_entry/daily_entry.dart';
 import 'package:chss_noon_meal/domain/use_case/config/get_class_list_use_case.dart';
@@ -15,6 +16,8 @@ import 'package:chss_noon_meal/domain/use_case/preference/get_saved_user_role_us
 import 'package:chss_noon_meal/domain/use_case/use_case.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:open_file_plus/open_file_plus.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 part 'reports_event.dart';
 
@@ -147,13 +150,39 @@ class ReportsBloc extends Bloc<ReportsEvent, ReportsState> {
     ExportButtonPressed event,
     Emitter<ReportsState> emit,
   ) async {
-    final _ = await exportReportToExcelUseCase(
-      ExportReportToExcelUseCaseParams(
-        classList: state.classList,
-        dailyEntryList: state.dailyEntryList,
-        startDate: state.startDate,
-        endDate: state.endDate,
-      ),
-    );
+    if (await Permission.storage.request().isGranted) {
+      final result = await exportReportToExcelUseCase(
+        ExportReportToExcelUseCaseParams(
+          classList: state.classList,
+          dailyEntryList: state.dailyEntryList,
+          startDate: state.startDate,
+          endDate: state.endDate,
+        ),
+      );
+
+      if (result.isRight) {
+        final openResult = await OpenFile.open(result.right);
+        switch (openResult.type) {
+          case ResultType.done:
+            break;
+          case ResultType.fileNotFound:
+            Utils.showToast('File not found');
+          case ResultType.noAppToOpen:
+            Utils.showToast(
+              'No application to open file. File saved to ${result.right}',
+            );
+          case ResultType.permissionDenied:
+            Utils.showToast('Permission denied');
+          case ResultType.error:
+            Utils.showToast('Error occurred while opening file');
+        }
+      } else {
+        Utils.showToast(result.left.toString());
+      }
+    } else {
+      Utils.showToast(
+        'Storage Permission Required. Please grant it from settings.',
+      );
+    }
   }
 }

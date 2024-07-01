@@ -56,7 +56,7 @@ class LoginScreen extends StatelessWidget {
                           ),
                           SizedBox(height: 8),
                           Text(
-                            'Sign in to your Existing Account of\nGlobal Brands',
+                            'Sign in to your existing account of CHSS Noon Meal',
                             style: TextStyle(
                               fontSize: 16,
                               color: AppColors.commentTextColor,
@@ -92,10 +92,14 @@ class LoginScreen extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: TextField(
+                        obscureText: true,
+                        enableSuggestions: false,
+                        autocorrect: false,
                         decoration: InputDecoration(
                           hintText: 'Password',
-                          hintStyle:
-                              const TextStyle(color: AppColors.textColor),
+                          hintStyle: const TextStyle(
+                            color: AppColors.textColor,
+                          ),
                           filled: true,
                           fillColor: AppColors.lightGrey,
                           border: OutlineInputBorder(
