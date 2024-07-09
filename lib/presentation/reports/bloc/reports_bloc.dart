@@ -17,7 +17,6 @@ import 'package:chss_noon_meal/domain/use_case/use_case.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:open_file_plus/open_file_plus.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 part 'reports_event.dart';
 
@@ -150,46 +149,46 @@ class ReportsBloc extends Bloc<ReportsEvent, ReportsState> {
     ExportButtonPressed event,
     Emitter<ReportsState> emit,
   ) async {
-    final permissionResult = await Permission.manageExternalStorage.request();
-    switch (permissionResult) {
-      case PermissionStatus.granted:
-        final result = await exportReportToExcelUseCase(
-          ExportReportToExcelUseCaseParams(
-            classList: state.classList,
-            dailyEntryList: state.dailyEntryList,
-            startDate: state.startDate,
-            endDate: state.endDate,
-          ),
-        );
+    // final permissionResult = await Permission.manageExternalStorage.request();
+    // switch (permissionResult) {
+    //   case PermissionStatus.granted:
+    final result = await exportReportToExcelUseCase(
+      ExportReportToExcelUseCaseParams(
+        classList: state.classList,
+        dailyEntryList: state.dailyEntryList,
+        startDate: state.startDate,
+        endDate: state.endDate,
+      ),
+    );
 
-        if (result.isRight) {
-          final openResult = await OpenFile.open(result.right);
-          switch (openResult.type) {
-            case ResultType.done:
-              break;
-            case ResultType.fileNotFound:
-              Utils.showToast('File not found');
-            case ResultType.noAppToOpen:
-              Utils.showToast(
-                'No application to open file. File saved to ${result.right}',
-              );
-            case ResultType.permissionDenied:
-              Utils.showToast('Permission denied');
-            case ResultType.error:
-              Utils.showToast('Error occurred while opening file');
-          }
-        } else {
-          Utils.showToast(result.left.toString());
-        }
-      case PermissionStatus.denied:
-        Utils.showToast(
-          'Storage Permission Required. Please grant it from settings.',
-        );
-      case PermissionStatus.permanentlyDenied:
-        unawaited(openAppSettings());
-      // ignore: no_default_cases
-      default:
-        break;
+    if (result.isRight) {
+      final openResult = await OpenFile.open(result.right);
+      switch (openResult.type) {
+        case ResultType.done:
+          break;
+        case ResultType.fileNotFound:
+          Utils.showToast('File not found');
+        case ResultType.noAppToOpen:
+          Utils.showToast(
+            'No application to open file. File saved to ${result.right}',
+          );
+        case ResultType.permissionDenied:
+          Utils.showToast('Permission denied');
+        case ResultType.error:
+          Utils.showToast('Error occurred while opening file');
+      }
+    } else {
+      Utils.showToast(result.left.toString());
     }
+    // case PermissionStatus.denied:
+    //   Utils.showToast(
+    //     'Storage Permission Required. Please grant it from settings.',
+    //   );
+    // case PermissionStatus.permanentlyDenied:
+    //   unawaited(openAppSettings());
+    // // ignore: no_default_cases
+    // default:
+    //   break;
+    // }
   }
 }

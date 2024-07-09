@@ -40,13 +40,10 @@ class _DailyEntryScreenState extends State<DailyEntryScreen> {
       ),
     );
 
-
     _classController = TextEditingController();
     _divisionController = TextEditingController();
     _boysCountController = TextEditingController();
     _girlsCountController = TextEditingController();
-
-
   }
 
   @override
@@ -462,13 +459,15 @@ class _DailyEntryScreenState extends State<DailyEntryScreen> {
                             const Gap(25),
                             Expanded(
                               child: GestureDetector(
-                                onTap: () {
-                                  if (_formKey.currentState!.validate()) {
-                                    context
-                                        .read<DailyEntryBloc>()
-                                        .add(SaveButtonPressed());
-                                  }
-                                },
+                                onTap: state.status.isLoading
+                                    ? null
+                                    : () {
+                                        if (_formKey.currentState!.validate()) {
+                                          context
+                                              .read<DailyEntryBloc>()
+                                              .add(SaveButtonPressed());
+                                        }
+                                      },
                                 child: Container(
                                   width: double.infinity,
                                   height: 45,
@@ -479,15 +478,27 @@ class _DailyEntryScreenState extends State<DailyEntryScreen> {
                                     ),
                                     borderRadius: BorderRadius.circular(10),
                                   ),
-                                  child: Center(
-                                    child: Text(
-                                      state.isUpdateMode ? 'Update' : 'Save',
-                                      style: const TextStyle(
-                                        fontSize: 17,
-                                        color: AppColors.white,
-                                      ),
-                                    ),
-                                  ),
+                                  child: state.status.isLoading
+                                      ? const Center(
+                                          child: SizedBox(
+                                            width: 20,
+                                            height: 20,
+                                            child: CircularProgressIndicator(
+                                              color: AppColors.white,
+                                            ),
+                                          ),
+                                        )
+                                      : Center(
+                                          child: Text(
+                                            state.isUpdateMode
+                                                ? 'Update'
+                                                : 'Save',
+                                            style: const TextStyle(
+                                              fontSize: 17,
+                                              color: AppColors.white,
+                                            ),
+                                          ),
+                                        ),
                                 ),
                               ),
                             ),

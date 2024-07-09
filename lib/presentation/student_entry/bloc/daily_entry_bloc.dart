@@ -150,6 +150,7 @@ class DailyEntryBloc extends Bloc<DailyEntryEvent, DailyEntryState> {
   Future<void> saveEntry(
     Emitter<DailyEntryState> emit,
   ) async {
+    emit(state.copyWith(status: Status.loading));
     final boysCount = int.tryParse(state.boysCount) ?? 0;
     final girlsCount = int.tryParse(state.girlsCount) ?? 0;
     final classId = state.selectedClass?.classId ?? '';
@@ -178,6 +179,7 @@ class DailyEntryBloc extends Bloc<DailyEntryEvent, DailyEntryState> {
   Future<void> updateEntry(
     Emitter<DailyEntryState> emit,
   ) async {
+    emit(state.copyWith(status: Status.loading));
     final boysCount = int.tryParse(state.boysCount) ?? 0;
     final girlsCount = int.tryParse(state.girlsCount) ?? 0;
 

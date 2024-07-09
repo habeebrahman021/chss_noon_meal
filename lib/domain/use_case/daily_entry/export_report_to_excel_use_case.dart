@@ -9,6 +9,7 @@ import 'package:chss_noon_meal/domain/use_case/use_case.dart';
 // ignore: depend_on_referenced_packages
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:syncfusion_flutter_xlsio/xlsio.dart';
 
 class ExportReportToExcelUseCase
@@ -115,19 +116,20 @@ class ExportReportToExcelUseCase
 
     final bytes = workbook.saveAsStream();
 
-    // Get the Downloads directory
-    final downloadsDirectory = Directory('/storage/emulated/0/Download');
+    // Get the directory
+    final directory = await getApplicationDocumentsDirectory();
+    // final downloadsDirectory = Directory('/storage/emulated/0/Download');
     // Create ChssNoonMeal folder if it doesn't exist
-    final chssNoonMealDirectory =
-        Directory('${downloadsDirectory.path}/ChssNoonMeal');
-    if (!chssNoonMealDirectory.existsSync()) {
-      await chssNoonMealDirectory.create(recursive: true);
-    }
+    // final chssNoonMealDirectory =
+    //     Directory('${downloadsDirectory.path}/ChssNoonMeal');
+    // if (!chssNoonMealDirectory.existsSync()) {
+    //   await chssNoonMealDirectory.create(recursive: true);
+    // }
     final fileName = 'chss_meals_report_'
         '${params.startDate.toStringFormatted('dd-MM-yyyy')}'
         '-${params.endDate.toStringFormatted('dd-MM-yyyy')}'
         '.xlsx';
-    final filePath = '${chssNoonMealDirectory.path}/$fileName';
+    final filePath = '${directory.path}/$fileName';
     final file = File(filePath);
     await file.writeAsBytes(bytes, flush: true);
 

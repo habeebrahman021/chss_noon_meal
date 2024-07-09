@@ -13,7 +13,7 @@ import 'package:chss_noon_meal/domain/use_case/daily_entry/check_entry_exists_wi
 import 'package:chss_noon_meal/domain/use_case/daily_entry/export_report_to_excel_use_case.dart';
 import 'package:chss_noon_meal/domain/use_case/daily_entry/get_student_entries_by_date_range_use_case.dart';
 import 'package:chss_noon_meal/domain/use_case/daily_entry/get_student_entries_by_date_use_case.dart';
-import 'package:chss_noon_meal/domain/use_case/daily_entry/get_student_entry_count_by_date.dart';
+import 'package:chss_noon_meal/domain/use_case/daily_entry/generate_chart_data_use_case.dart';
 import 'package:chss_noon_meal/domain/use_case/daily_entry/save_daily_entry_use_case.dart';
 import 'package:chss_noon_meal/domain/use_case/daily_entry/update_class_list_with_daily_entries_use_case.dart';
 import 'package:chss_noon_meal/domain/use_case/daily_entry/update_daily_entry_use_case.dart';
@@ -177,9 +177,8 @@ Future<void> _registerUseCases() async {
         preferenceDataSource: injector(),
       ),
     )
-    ..registerLazySingleton<GetStudentEntryCountByDate>(
-      () => GetStudentEntryCountByDate(
-        preferenceDataSource: injector(),
+    ..registerLazySingleton<GenerateChartDataUseCase>(
+      () => GenerateChartDataUseCase(
         dailyEntryRepository: injector(),
       ),
     )
@@ -205,8 +204,12 @@ Future<void> _registerBlocs() async {
     ..registerFactory<HomeBloc>(
       () => HomeBloc(
         logoutUseCase: injector(),
-        getStudentEntryCountByDate: injector(),
+        generateChartDataUseCase: injector(),
         getSavedFullNameUseCase: injector(),
+        getClassListUseCase: injector(),
+        getDailyEntriesByDateUseCase: injector(),
+        updateClassListWithDailyEntriesUseCase: injector(),
+        getSavedOrganizationIdUseCase: injector(),
       )
         ..add(HomeEventInitial())
         ..add(GetStudentEntryCount()),
